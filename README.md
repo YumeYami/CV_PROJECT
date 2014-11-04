@@ -1,2 +1,2 @@
-CV_PROJECT
+Person Tracking
 ==========

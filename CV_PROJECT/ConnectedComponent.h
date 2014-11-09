@@ -11,7 +11,7 @@ using namespace std;
 using namespace cv;
 
 inline void findComponent(Mat frameDiff, vector<Component> &object) {
-	cout << "test \n";
+	
 }
 
 #endif // !_CC

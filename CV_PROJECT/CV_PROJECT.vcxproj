@@ -85,12 +85,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp" />
-    <ClCompile Include="ConnectedComponent.cpp" />
     <ClCompile Include="person_tracking_main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BgDiff.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ConnectedComponent.h" />
+    <ClInclude Include="Logic.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

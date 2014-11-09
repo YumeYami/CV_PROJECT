@@ -9,12 +9,17 @@
 using namespace cv;
 using namespace std;
 
-vector<Component> object;
+vector<Component> personList;
+vector<Component> nonpersonList;
 
 int main() {
 	cout << "start...\n";
 	Mat f;
-	findComponent(f,object);
+	while ( true ) {
+		vector<Component> newFrameComponent;
+		findComponent(f, newFrameComponent);
+
+	}
 	waitKey(0);
 	getchar();
 }

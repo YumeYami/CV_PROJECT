@@ -85,7 +85,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp" />
-    <ClCompile Include="ConnectedComponent.cpp" />
     <ClCompile Include="person_tracking_main.cpp" />
   </ItemGroup>
   <ItemGroup>

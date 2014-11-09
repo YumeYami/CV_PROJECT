@@ -17,7 +17,7 @@ public:
 	int size;
 	vector<Point> path;
 	Component();
-	Component(Point cm, Point rect_tl, Point rect_br, int size, vector<Point> path);
+	Component(Point cm, Point rect_tl, Point rect_br, int size);
 	void addPath(Point newPoint);
 	~Component();
 };

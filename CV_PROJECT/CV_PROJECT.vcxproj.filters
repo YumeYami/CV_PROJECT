@@ -32,5 +32,11 @@
     <ClInclude Include="Logic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
+=======
+    <ClInclude Include="BgDiff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+>>>>>>> 95215dcf496f487d1fbd065ab24b700c16153234
   </ItemGroup>
 </Project>

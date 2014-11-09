@@ -15,7 +15,7 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 	vector<Component> personTemp;
 	vector<Component> nonpersonTemp;
 
-	while (newComponent.size()>0 && (personList.size()>0 || nonpersonList.size()>0)){
+	for (int j = 0; j < newComponent.size();j++){
 		Component nearestComponent;
 		int type,index;
 		if (nonpersonList.size() > 0){
@@ -23,17 +23,17 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 			type = 0;
 			index = 0;
 		}
-		else
-		{
+		else if (personList.size()>0){
 			nearestComponent = personList[0];
 			type = 1;
 			index = 0;
 		}
+		else break;
 		
-		int min = pow(nearestComponent.cm.x - newComponent[0].cm.x, 2) + pow(nearestComponent.cm.y - newComponent[0].cm.y, 2);
+		int min = pow(nearestComponent.cm.x - newComponent[j].cm.x, 2) + pow(nearestComponent.cm.y - newComponent[j].cm.y, 2);
 		for (int i = 0; i < nonpersonList.size(); i++){
-			int cmDiff = pow(nonpersonList[i].cm.x - newComponent[0].cm.x, 2) + pow(nonpersonList[i].cm.y - newComponent[0].cm.y, 2);
-			int sizeDiff = abs(nonpersonList[i].size - newComponent[0].size);
+			int cmDiff = pow(nonpersonList[i].cm.x - newComponent[j].cm.x, 2) + pow(nonpersonList[i].cm.y - newComponent[j].cm.y, 2);
+			int sizeDiff = abs(nonpersonList[i].size - newComponent[j].size);
 			if (cmDiff < min && sizeDiff <= thresholdSize){
 				min = cmDiff;
 				nearestComponent = nonpersonList[i];
@@ -42,8 +42,8 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 			}
 		}
 		for (int i = 0; i < personList.size(); i++){
-			int cmDiff = pow(personList[i].cm.x - newComponent[0].cm.x, 2) + pow(personList[i].cm.y - newComponent[0].cm.y, 2);
-			int sizeDiff = abs(personList[i].size - newComponent[0].size);
+			int cmDiff = pow(personList[i].cm.x - newComponent[j].cm.x, 2) + pow(personList[i].cm.y - newComponent[j].cm.y, 2);
+			int sizeDiff = abs(personList[i].size - newComponent[j].size);
 			if (cmDiff < min && sizeDiff <= thresholdSize){
 				min = cmDiff;
 				nearestComponent = personList[i];
@@ -51,10 +51,10 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 				index = i;
 			}
 		}
-		int sizeDiff = abs(nearestComponent.size - newComponent[0].size);
+		int sizeDiff = abs(nearestComponent.size - newComponent[j].size);
 		if (min <= thresholdCM && sizeDiff<= thresholdSize){
 			if (type == 0){
-				mergeComponent(nearestComponent, newComponent[0]);
+				mergeComponent(nearestComponent, newComponent[j]);
 				
 			}
 		}

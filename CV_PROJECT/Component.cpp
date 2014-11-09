@@ -3,12 +3,13 @@
 Component::Component() {
 }
 
-Component::Component(Point cm, Point rect_tl, Point rect_br, int size, vector<Point> path) {
+Component::Component(Point cm, Point rect_tl, Point rect_br, int size) {
 	this->cm = cm;
 	this->rect_tl = rect_tl;
 	this->rect_br = rect_br;
 	this->size = size;
-	this->path = path;
+
+	addPath(cm);	
 }
 
 Component::~Component() {

@@ -6,9 +6,12 @@
 #include "Component.h"
 #include "ConnectedComponent.h"
 #include "Logic.h"
+#include "BgDiff.h"
 
 #define THRESHOLD_CM 10
 #define THRESHOLD_SIZE 50
+#define INIT_SKIP_FRAME 20
+
 
 using namespace cv;
 using namespace std;
@@ -18,12 +21,28 @@ vector<Component> nonpersonList;
 
 int main() {
 	cout << "start...\n";
-	Mat f;
-	while ( true ) {
-		vector<Component> newFrameComponent;
-		findComponent(f, newFrameComponent);
-		updateComponent(newFrameComponent, personList, nonpersonList, THRESHOLD_CM,THRESHOLD_SIZE);
+	VideoCapture cap(0);
+	if ( !cap.isOpened() ) {
+		cout << "video error\n";
+		return -1;
 	}
+	Mat f, diffBool, bg;
+	do { cap >> f; } while ( f.empty() );
+	for ( int i = 0; i < INIT_SKIP_FRAME; i++ ) cap >> f;
+	cap >> bg;
+	while ( true ) {
+		cap >> f;
+		if ( f.empty() ) break;
+		imshow("background", bg);
+		bgSubtract(bg, f, diffBool);
+		vector<Component> newFrameComponent;
+		//findComponent(diffBool, newFrameComponent);
+		updateComponent(newFrameComponent, personList, nonpersonList, THRESHOLD_CM,THRESHOLD_SIZE);
+
+		waitKey(10);
+
+	}
+	cout << "end video\n";
 	waitKey(0);
 	getchar();
 }

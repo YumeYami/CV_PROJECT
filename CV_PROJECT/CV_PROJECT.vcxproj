@@ -88,6 +88,7 @@
     <ClCompile Include="person_tracking_main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BgDiff.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ConnectedComponent.h" />
     <ClInclude Include="Logic.h" />

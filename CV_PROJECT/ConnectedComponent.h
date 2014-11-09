@@ -89,7 +89,7 @@ inline Component fill_region(Mat frameDiff, Point pos, int round, Mat bool_trave
 
 	}
 
-	Component component = Component(Point((int)(sumx / cnt), (int)(sumy / cnt)), Point(minx, miny), Point(maxx, maxy), cnt);
+	Component component = Component(Point((int)(sumx / cnt), (int)(sumy / cnt)), Point(minx, miny), Point(maxx, maxy), cnt, 0, 0);
 	return component;
 }
 

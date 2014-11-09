@@ -7,9 +7,8 @@
 #include "ConnectedComponent.h"
 #include "Logic.h"
 #include "BgDiff.h"
+#include "personID.h"
 
-#define THRESHOLD_CM 10
-#define THRESHOLD_SIZE 50
 #define INIT_SKIP_FRAME 20
 
 
@@ -18,6 +17,9 @@ using namespace std;
 
 vector<Component> personList;
 vector<Component> nonpersonList;
+
+int thresholdCM = 10;
+
 
 int main() {
 	cout << "start...\n";
@@ -37,7 +39,8 @@ int main() {
 		bgSubtract(bg, f, diffBool);
 		vector<Component> newFrameComponent;
 		//findComponent(diffBool, newFrameComponent);
-		updateComponent(newFrameComponent, personList, nonpersonList, THRESHOLD_CM,THRESHOLD_SIZE);
+		
+		updateComponent(newFrameComponent, personList, nonpersonList,thresholdCM);
 
 		waitKey(10);
 

@@ -57,7 +57,7 @@ int main() {
 
 		updateComponent(newFrameComponent, personList, nonpersonList,thresholdCM);
 
-		switch (waitKey(100)) {
+		switch (waitKey(10)) {
 			case 27: loop = false; break;
 		}
 	}

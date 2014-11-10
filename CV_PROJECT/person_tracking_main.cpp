@@ -32,20 +32,35 @@ int main() {
 	do { cap >> f; } while ( f.empty() );
 	for ( int i = 0; i < INIT_SKIP_FRAME; i++ ) cap >> f;
 	cap >> bg;
-	while ( true ) {
+
+	bool loop = true;
+	while ( loop ) {
 		cap >> f;
 		if ( f.empty() ) break;
 		imshow("background", bg);
 		bgSubtract(bg, f, diffBool);
 		vector<Component> newFrameComponent;
-		//findComponent(diffBool, newFrameComponent);
-		
+
+		findComponent(diffBool, newFrameComponent);
+		// show rectangle of each component
+		/*
+		Mat connectedComponent = Mat::zeros(diffBool.rows, diffBool.cols, CV_8U);
+		for (int i = 0; i < newFrameComponent.size(); i++) {
+			for (int j = newFrameComponent[i].rect_tl.x; j < newFrameComponent[i].rect_br.x; j++) {
+				for (int k = newFrameComponent[i].rect_tl.y; k < newFrameComponent[i].rect_br.y; k++) {
+					connectedComponent.at<uchar>(j, k) = 255;
+				}
+			}
+		}
+		imshow("ConnectedComponent", connectedComponent);
+		*/
+
 		updateComponent(newFrameComponent, personList, nonpersonList,thresholdCM);
 
-		waitKey(10);
-
+		switch (waitKey(100)) {
+			case 27: loop = false; break;
+		}
 	}
 	cout << "end video\n";
-	waitKey(0);
-	getchar();
+	//getchar();
 }

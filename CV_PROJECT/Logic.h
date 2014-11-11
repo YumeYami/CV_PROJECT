@@ -1,63 +1,79 @@
 #ifndef _LOGIC
 #define _LOGIC
 
-#endif // !_LOGIC
+#include "personID.h"
 
-void mergeComponent(Component &nearestComponent, Component &newComponent){
-	nearestComponent.cm = newComponent.cm;
-	nearestComponent.rect_br = newComponent.rect_br;
-	nearestComponent.rect_tl = newComponent.rect_tl;
-	nearestComponent.addPath(newComponent.path[0]);
-	nearestComponent.size = newComponent.size;
+bool isOverlapped(Component a, Component b, int thresholdCM){
+	int cmDiff = pow(a.cm.x - b.cm.x, 2) + pow(a.cm.y - b.cm.y, 2);
+	if (cmDiff <= thresholdCM){
+		return true;
+	}
+	return false;
 }
-void updateComponent(vector<Component> &newComponent, vector<Component> &personList, vector<Component> &nonpersonList, int thresholdCM,int thresholdSize){
-	
-	vector<Component> personTemp;
-	vector<Component> nonpersonTemp;
 
-	for (int j = 0; j < newComponent.size();j++){
-		Component nearestComponent;
-		int type,index;
-		if (nonpersonList.size() > 0){
-			nearestComponent = nonpersonList[0];
-			type = 0;
-			index = 0;
+void updateComponent(vector<Component> &newComponent, vector<Component> &personList, vector<Component> &nonpersonList, int thresholdCM){
+	vector<Component> newPersonList;
+	vector<Component> newNonpersonList;
+
+	for (int i = 0; i < newComponent.size(); i++){
+		if (newComponent[i].id == CHECKED) continue;
+		int pID = 0;
+		for (int j = 0; j < personList.size(); j++){
+			if (!isOverlapped(newComponent[i], personList[j], thresholdCM)) continue;
+			Component *person = &newComponent[i];
+			for (int k = i + 1; k < newComponent.size(); k++){
+				if (!isOverlapped(newComponent[k], personList[j], thresholdCM))continue;
+				if (newComponent[k].size > person->size){
+					person->type = NON_PERSON;
+					person->id = personList[j].id;
+					newNonpersonList.push_back(*person);
+					person->id = CHECKED;
+					person = &newComponent[k];
+				}
+				else{
+					newComponent[k].type = NON_PERSON;
+					newComponent[k].id = personList[j].id;
+					newNonpersonList.push_back(newComponent[k]);
+					newComponent[k].id = CHECKED;
+				}
+			}
+			person->type = PERSON;
+			person->id = personList[j].id;
+			newPersonList.push_back(*person);
+			person->id = CHECKED;
+			pID = personList[j].id;
+			break;
 		}
-		else if (personList.size()>0){
-			nearestComponent = personList[0];
-			type = 1;
-			index = 0;
-		}
-		else break;
-		
-		int min = pow(nearestComponent.cm.x - newComponent[j].cm.x, 2) + pow(nearestComponent.cm.y - newComponent[j].cm.y, 2);
-		for (int i = 0; i < nonpersonList.size(); i++){
-			int cmDiff = pow(nonpersonList[i].cm.x - newComponent[j].cm.x, 2) + pow(nonpersonList[i].cm.y - newComponent[j].cm.y, 2);
-			int sizeDiff = abs(nonpersonList[i].size - newComponent[j].size);
-			if (cmDiff < min && sizeDiff <= thresholdSize){
-				min = cmDiff;
-				nearestComponent = nonpersonList[i];
-				type = 0;
-				index = i;
+		if (pID!=0) {
+			for (int j = 0; j < nonpersonList.size(); j++){
+				if (isOverlapped(newComponent[i], nonpersonList[j], thresholdCM)){
+					if (nonpersonList[j].id != pID) 
+						cout << "PersonID "<< pID <<"is Thief!!";
+					break;
+				}
 			}
 		}
-		for (int i = 0; i < personList.size(); i++){
-			int cmDiff = pow(personList[i].cm.x - newComponent[j].cm.x, 2) + pow(personList[i].cm.y - newComponent[j].cm.y, 2);
-			int sizeDiff = abs(personList[i].size - newComponent[j].size);
-			if (cmDiff < min && sizeDiff <= thresholdSize){
-				min = cmDiff;
-				nearestComponent = personList[i];
-				type = 1;
-				index = i;
+		else{
+			for (int j = 0; j < nonpersonList.size(); j++){
+				if (isOverlapped(newComponent[i], nonpersonList[j], thresholdCM)){
+					newComponent[i].type = NON_PERSON;
+					newComponent[i].id = nonpersonList[j].id;
+					newNonpersonList.push_back(newComponent[i]);
+					newComponent[i].id = CHECKED;
+					break;
+				}
 			}
 		}
-		int sizeDiff = abs(nearestComponent.size - newComponent[j].size);
-		if (min <= thresholdCM && sizeDiff<= thresholdSize){
-			if (type == 0){
-				mergeComponent(nearestComponent, newComponent[j]);
-				
-			}
+		if (newComponent[i].id != CHECKED){
+			newComponent[i].type = PERSON;
+			newComponent[i].id = personID::serial++;
+			newPersonList.push_back(newComponent[i]);
+			newComponent[i].id = CHECKED;
 		}
 	}
+	personList = newPersonList;
+	nonpersonList = newNonpersonList;
+	//add new path remain
 }
 
+#endif // !_LOGIC

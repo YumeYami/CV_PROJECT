@@ -26,19 +26,19 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Component.h">
+    <ClInclude Include="Header\BgDiff.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ConnectedComponent.h">
+    <ClInclude Include="Header\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Logic.h">
+    <ClInclude Include="Header\ConnectedComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BgDiff.h">
+    <ClInclude Include="Header\Logic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="personID.h">
+    <ClInclude Include="Header\personID.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

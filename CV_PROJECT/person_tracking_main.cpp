@@ -3,11 +3,11 @@
 #include "opencv2\highgui\highgui.hpp"
 #include <iostream>
 #include <list>
-#include "Component.h"
-#include "ConnectedComponent.h"
-#include "Logic.h"
-#include "BgDiff.h"
-#include "personID.h"
+#include "Header/Component.h"
+#include "Header/ConnectedComponent.h"
+#include "Header/Logic.h"
+#include "Header/BgDiff.h"
+#include "Header/personID.h"
 
 #define INIT_SKIP_FRAME 20
 
@@ -19,16 +19,17 @@ vector<Component> personList;
 vector<Component> nonpersonList;
 
 int thresholdCM = 10;
-
+RNG rng(12345);
 
 int main() {
 	cout << "start...\n";
-	VideoCapture cap(0);
+	VideoCapture cap("IMG2.mp4");
+	//VideoCapture cap(0);
 	if ( !cap.isOpened() ) {
 		cout << "video error\n";
 		return -1;
 	}
-	Mat f, diffBool, bg;
+	Mat f, diffBool, bg, foreground;
 	do { cap >> f; } while ( f.empty() );
 	for ( int i = 0; i < INIT_SKIP_FRAME; i++ ) cap >> f;
 	cap >> bg;
@@ -38,26 +39,28 @@ int main() {
 		cap >> f;
 		if ( f.empty() ) break;
 		imshow("background", bg);
-		bgSubtract(bg, f, diffBool);
+		bgSubtract(bg, f, diffBool, foreground);
 		vector<Component> newFrameComponent;
+		findComponentContour(diffBool, newFrameComponent, foreground);
+		//cout << "component num: " << newFrameComponent.size() << "\n";
 
-		findComponent(diffBool, newFrameComponent);
-		// show rectangle of each component
+		//show rectangle of each component
 		/*
 		Mat connectedComponent = Mat::zeros(diffBool.rows, diffBool.cols, CV_8U);
 		for (int i = 0; i < newFrameComponent.size(); i++) {
-			for (int j = newFrameComponent[i].rect_tl.x; j < newFrameComponent[i].rect_br.x; j++) {
-				for (int k = newFrameComponent[i].rect_tl.y; k < newFrameComponent[i].rect_br.y; k++) {
-					connectedComponent.at<uchar>(j, k) = 255;
-				}
-			}
+		for (int j = newFrameComponent[i].rect_tl.x; j < newFrameComponent[i].rect_br.x; j++) {
+		for (int k = newFrameComponent[i].rect_tl.y; k < newFrameComponent[i].rect_br.y; k++) {
+		connectedComponent.at<uchar>(j, k) = 255;
+		}
+		}
 		}
 		imshow("ConnectedComponent", connectedComponent);
 		*/
 
-		updateComponent(newFrameComponent, personList, nonpersonList,thresholdCM);
+		updateComponent(newFrameComponent, personList, nonpersonList, thresholdCM);
+		cout << "person: " << personList.size() << "nonperson: " << nonpersonList.size()<< "\n";
 
-		switch (waitKey(10)) {
+		switch ( waitKey(10) ) {
 			case 27: loop = false; break;
 		}
 	}

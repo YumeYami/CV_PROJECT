@@ -90,11 +90,11 @@
     <ClCompile Include="person_tracking_main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BgDiff.h" />
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="ConnectedComponent.h" />
-    <ClInclude Include="Logic.h" />
-    <ClInclude Include="personID.h" />
+    <ClInclude Include="Header\BgDiff.h" />
+    <ClInclude Include="Header\Component.h" />
+    <ClInclude Include="Header\ConnectedComponent.h" />
+    <ClInclude Include="Header\Logic.h" />
+    <ClInclude Include="Header\personID.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

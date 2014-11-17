@@ -12,7 +12,7 @@
 using namespace cv;
 using namespace std;
 
-inline void bgSubtract(Mat bg, Mat currFrame, Mat &diffBool) {
+inline void bgSubtract(Mat bg, Mat currFrame, Mat &diffBool, Mat &foreground) {
 	Mat diff;
 	absdiff(currFrame, bg, diff);
 	diff.convertTo(diff, CV_8UC3);
@@ -21,6 +21,7 @@ inline void bgSubtract(Mat bg, Mat currFrame, Mat &diffBool) {
 	cvtColor(diffBool, diff, CV_GRAY2BGR);
 	diff &= currFrame;
 	imshow("diff", diff);
+	foreground = diff;
 }
 
 #endif // !_BG_DIFF

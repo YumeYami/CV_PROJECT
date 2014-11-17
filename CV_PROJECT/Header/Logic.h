@@ -1,7 +1,7 @@
 #ifndef _LOGIC
 #define _LOGIC
 
-#include "personID.h"
+#include "Header/personID.h"
 int _threshold = 0;
 
 bool isOverlapped(Component a, Component b){

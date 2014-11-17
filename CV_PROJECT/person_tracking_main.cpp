@@ -10,15 +10,14 @@
 #include "Header/personID.h"
 
 #define INIT_SKIP_FRAME 20
-
-
+#define WHITE Scalar(255,255,255)
+#define RED Scalar (0,0,255)
 using namespace cv;
 using namespace std;
 
 vector<Component> personList;
 vector<Component> nonpersonList;
-
-int thresholdCM = 10;
+int thresholdCM = 50;
 RNG rng(12345);
 
 int main() {
@@ -33,8 +32,7 @@ int main() {
 	do { cap >> f; } while ( f.empty() );
 	for ( int i = 0; i < INIT_SKIP_FRAME; i++ ) cap >> f;
 	cap >> bg;
-
-	bool loop = true;
+	bool loop = true, showPath = true;
 	while ( loop ) {
 		cap >> f;
 		if ( f.empty() ) break;
@@ -58,10 +56,25 @@ int main() {
 		*/
 
 		updateComponent(newFrameComponent, personList, nonpersonList, thresholdCM);
-		cout << "person: " << personList.size() << "nonperson: " << nonpersonList.size()<< "\n";
-
+		cout << "person: " << personList.size() << " nonperson: " << nonpersonList.size() << "\n";
+		if ( !personList.empty() ) {
+			cout << "personID: ";
+			for ( int i = 0; i < personList.size(); i++ ) {
+				cout << personList[i].id << " ";
+			}
+			cout << "\n";
+		}
+		if ( showPath ) {
+			for ( int i = 0; i < personList.size(); i++ ) {
+				for ( int j = 1; j < personList[i].path.size(); j++ ) {
+					line(foreground, personList[i].path[j], personList[i].path[j - 1], RED, 1, 8, 0);
+				}
+			}
+		}
+		imshow("foreground", foreground);
 		switch ( waitKey(10) ) {
 			case 27: loop = false; break;
+			case 'p': showPath = !showPath; break;
 		}
 	}
 	cout << "end video\n";

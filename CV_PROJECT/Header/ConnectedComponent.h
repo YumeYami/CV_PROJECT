@@ -15,7 +15,7 @@ using namespace cv;
 
 inline Component fill_region(Mat, Point, int, Mat&);
 
-inline void findComponentContour(Mat &diffBool, vector<Component> &object, Mat foreground) {
+inline void findComponentContour(Mat &diffBool, vector<Component> &object, Mat &foreground) {
 	vector<vector<Point> > contours;
 	vector<Vec4i> hierarchy;
 	///Detect edges using Threshold
@@ -53,8 +53,6 @@ inline void findComponentContour(Mat &diffBool, vector<Component> &object, Mat f
 		}
 		//circle(drawing, center[i], (int)radius[i], color, 2, 8, 0);
 	}
-	imshow("draw", foreground);
-
 }
 
 inline void findComponent(Mat &frameDiff, vector<Component> &object) {

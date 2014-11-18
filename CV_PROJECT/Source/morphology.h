@@ -1,6 +1,4 @@
-#ifndef _MORPH
-#define _MORPH
-
+#pragma once
 #include "opencv2\imgproc\imgproc.hpp"
 #include "opencv2\core\core.hpp"
 #include "opencv2\highgui\highgui.hpp"
@@ -29,5 +27,3 @@ void Morphology_Operations(Mat src, Mat &dst, int morph_operator, int morph_elem
 	/// Apply the specified morphology operation
 	morphologyEx(src, dst, operation, element);
 }
-
-#endif // !_MORPH

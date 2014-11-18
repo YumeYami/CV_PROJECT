@@ -1,10 +1,8 @@
-#ifndef _BG_DIFF
-#define _BG_DIFF
-
+#pragma once
 #include "opencv2\imgproc\imgproc.hpp"
 #include "opencv2\core\core.hpp"
 #include "opencv2\highgui\highgui.hpp"
-#include "../Morphology.h"
+#include "morphology.h"
 #include <iostream>
 #include <list>
 
@@ -55,5 +53,3 @@ inline void bgSubtractRGB(Mat bg, Mat currFrame, Mat &diffBool, Mat &foreground)
 	imshow("diff", diff);
 	foreground = diff;
 }
-
-#endif // !_BG_DIFF

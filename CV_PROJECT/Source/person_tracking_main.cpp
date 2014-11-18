@@ -1,13 +1,12 @@
-#include "opencv2\imgproc\imgproc.hpp"
-#include "opencv2\core\core.hpp"
-#include "opencv2\highgui\highgui.hpp"
+#include <opencv2\imgproc\imgproc.hpp>
+#include <opencv2\core\core.hpp>
+#include <opencv2\highgui\highgui.hpp>
 #include <iostream>
 #include <list>
 #include "Component.h"
-#include "ConnectedComponent.h"
-#include "Logic.h"
-#include "BgDiff.h"
-#include "personID.h"
+#include "componentExtract.h"
+#include "logic.h"
+#include "bgSubtract.h"
 
 #define INIT_SKIP_FRAME 20
 #define WHITE Scalar(255,255,255)
@@ -43,20 +42,7 @@ int main() {
 		vector<Component> newFrameComponent;
 		findComponentContour(diffBool, newFrameComponent, foreground);
 		//cout << "component num: " << newFrameComponent.size() << "\n";
-
-		//show rectangle of each component
-		/*
-		Mat connectedComponent = Mat::zeros(diffBool.rows, diffBool.cols, CV_8U);
-		for (int i = 0; i < newFrameComponent.size(); i++) {
-		for (int j = newFrameComponent[i].rect_tl.x; j < newFrameComponent[i].rect_br.x; j++) {
-		for (int k = newFrameComponent[i].rect_tl.y; k < newFrameComponent[i].rect_br.y; k++) {
-		connectedComponent.at<uchar>(j, k) = 255;
-		}
-		}
-		}
-		imshow("ConnectedComponent", connectedComponent);
-		*/
-
+		
 		updateComponent(newFrameComponent, personList, nonpersonList, thresholdCM);
 		cout << "person: " << personList.size() << " nonperson: " << nonpersonList.size() << "\n";
 		if ( !personList.empty() ) {

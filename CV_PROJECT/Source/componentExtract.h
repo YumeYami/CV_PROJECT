@@ -1,9 +1,7 @@
-#ifndef _CC
-#define _CC
-
-#include "opencv2\imgproc\imgproc.hpp"
-#include "opencv2\core\core.hpp"
-#include "opencv2\highgui\highgui.hpp"
+#pragma once
+#include <opencv2\imgproc\imgproc.hpp>
+#include <opencv2\core\core.hpp>
+#include <opencv2\highgui\highgui.hpp>
 #include <iostream>
 #include <queue>
 
@@ -136,5 +134,3 @@ inline Component fill_region(Mat frameDiff, Point pos, int round, Mat &bool_trav
 	Component component = Component(Point((int)(sumx / cnt), (int)(sumy / cnt)), Point(minx, miny), Point(maxx, maxy), cnt, 0, 0);
 	return component;
 }
-
-#endif // !_CC

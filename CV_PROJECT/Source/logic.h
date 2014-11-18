@@ -1,7 +1,5 @@
-#ifndef _LOGIC
-#define _LOGIC
-
-#include "Header/personID.h"
+#pragma once
+#include "Component.h"
 int _threshold = 0;
 
 bool isOverlapped(Component a, Component b){
@@ -65,11 +63,9 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 		}
 		if (newComponent[i].id != CHECKED){ //newComponent[i] is new person
 			newComponent[i].addPath(newComponent[i].cm);
-			addToComponentList(PERSON, newPersonList, newComponent[i], personID::serial++);
+			addToComponentList(PERSON, newPersonList, newComponent[i], Person::personCounter++);
 		}
 	}
 	personList = newPersonList;
 	nonpersonList = newNonpersonList;
 }
-
-#endif // !_LOGIC

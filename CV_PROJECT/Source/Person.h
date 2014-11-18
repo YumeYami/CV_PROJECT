@@ -11,8 +11,8 @@ public:
 	static int personCounter;
 	int id;
 	Vec3i color;
-	vector<Item> ownItemList;
-	vector<Item> nonOwnItemList;
+	vector<Item*> ownItemList;
+	vector<Item*> nonOwnItemList;
 	vector<Point> path;
 
 	Person();

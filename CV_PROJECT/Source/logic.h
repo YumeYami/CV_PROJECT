@@ -69,3 +69,7 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 	personList = newPersonList;
 	nonpersonList = newNonpersonList;
 }
+
+void updateComponent2(vector<Component> &currComponents, vector<Component> &prevComponents,vector<Person> &personList, vector<Item> &itemList) {
+	vector<Component> newComp;
+}

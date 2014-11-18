@@ -18,11 +18,12 @@ using namespace std;
 vector<Component> personList;
 vector<Component> nonpersonList;
 int thresholdCM = 50;
+string imgNum = "6";
 RNG rng(12345);
 
 int main() {
 	cout << "start...\n";
-	VideoCapture cap("IMG2.mp4");
+	VideoCapture cap("IMG" + imgNum + ".mp4");
 	//VideoCapture cap(0);
 	if ( !cap.isOpened() ) {
 		cout << "video error\n";
@@ -30,7 +31,7 @@ int main() {
 	}
 	Mat f, diffBool, bg, foreground;
 	do { cap >> f; } while ( f.empty() );
-	for ( int i = 0; i < INIT_SKIP_FRAME; i++ ) cap >> f;
+	//for ( int i = 0; i < INIT_SKIP_FRAME; i++ ) cap >> f;
 	cap >> bg;
 	bool loop = true, showPath = true;
 	while ( loop ) {
@@ -65,6 +66,7 @@ int main() {
 			cout << "\n";
 		}
 		if ( showPath ) {
+#pragma omp parallel for
 			for ( int i = 0; i < personList.size(); i++ ) {
 				for ( int j = 1; j < personList[i].path.size(); j++ ) {
 					line(foreground, personList[i].path[j], personList[i].path[j - 1], RED, 1, 8, 0);

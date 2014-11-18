@@ -48,7 +48,7 @@ inline void findComponentContour(Mat &diffBool, vector<Component> &object, Mat &
 		//Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
 		Scalar color = Scalar(255, 255, 255);
 		if ( render[i] = true ) {
-			drawContours(foreground, contours, i, color, 1, 8, vector<Vec4i>(), 0, Point());
+			//drawContours(foreground, contours, i, color, 1, 8, vector<Vec4i>(), 0, Point());
 			rectangle(foreground, boundRect[i].tl(), boundRect[i].br(), color, 2, 8, 0);
 		}
 		//circle(drawing, center[i], (int)radius[i], color, 2, 8, 0);

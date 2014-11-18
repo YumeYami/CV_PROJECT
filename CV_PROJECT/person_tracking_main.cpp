@@ -17,7 +17,7 @@ using namespace std;
 
 vector<Component> personList;
 vector<Component> nonpersonList;
-int thresholdCM = 50;
+int thresholdCM = 100;
 string imgNum = "6";
 RNG rng(12345);
 
@@ -39,6 +39,7 @@ int main() {
 		if ( f.empty() ) break;
 		imshow("background", bg);
 		bgSubtract(bg, f, diffBool, foreground);
+		//bgSubtractRGB(bg, f, diffBool, foreground);
 		vector<Component> newFrameComponent;
 		findComponentContour(diffBool, newFrameComponent, foreground);
 		//cout << "component num: " << newFrameComponent.size() << "\n";

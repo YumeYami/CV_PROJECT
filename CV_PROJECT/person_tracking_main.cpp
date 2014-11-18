@@ -18,7 +18,7 @@ using namespace std;
 vector<Component> personList;
 vector<Component> nonpersonList;
 int thresholdCM = 100;
-string imgNum = "6";
+string imgNum = "1";
 RNG rng(12345);
 
 int main() {
@@ -37,7 +37,7 @@ int main() {
 	while ( loop ) {
 		cap >> f;
 		if ( f.empty() ) break;
-		imshow("background", bg);
+		imshow("background", f);
 		bgSubtract(bg, f, diffBool, foreground);
 		//bgSubtractRGB(bg, f, diffBool, foreground);
 		vector<Component> newFrameComponent;

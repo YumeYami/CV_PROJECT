@@ -95,6 +95,7 @@
     <ClInclude Include="Header\ConnectedComponent.h" />
     <ClInclude Include="Header\Logic.h" />
     <ClInclude Include="Header\personID.h" />
+    <ClInclude Include="Morphology.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,11 +3,11 @@
 #include "opencv2\highgui\highgui.hpp"
 #include <iostream>
 #include <list>
-#include "Header/Component.h"
-#include "Header/ConnectedComponent.h"
-#include "Header/Logic.h"
-#include "Header/BgDiff.h"
-#include "Header/personID.h"
+#include "Component.h"
+#include "ConnectedComponent.h"
+#include "Logic.h"
+#include "BgDiff.h"
+#include "personID.h"
 
 #define INIT_SKIP_FRAME 20
 #define WHITE Scalar(255,255,255)
@@ -23,7 +23,7 @@ RNG rng(12345);
 
 int main() {
 	cout << "start...\n";
-	VideoCapture cap("IMG" + imgNum + ".mp4");
+	VideoCapture cap("SampleVideo/IMG" + imgNum + ".mp4");
 	//VideoCapture cap(0);
 	if ( !cap.isOpened() ) {
 		cout << "video error\n";

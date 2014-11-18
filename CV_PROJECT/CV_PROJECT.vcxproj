@@ -11,12 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\BgDiff.h" />
+    <ClInclude Include="Source\bgSubtract.h" />
     <ClInclude Include="Source\Component.h" />
-    <ClInclude Include="Source\componentExtractor.h" />
+    <ClInclude Include="Source\componentExtract.h" />
     <ClInclude Include="Source\Item.h" />
     <ClInclude Include="Source\logic.h" />
-    <ClInclude Include="Source\Morphology.h" />
+    <ClInclude Include="Source\morphology.h" />
     <ClInclude Include="Source\Person.h" />
   </ItemGroup>
   <ItemGroup>

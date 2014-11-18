@@ -15,25 +15,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\BgDiff.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Morphology.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Person.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\componentExtractor.h">
+    <ClInclude Include="Source\logic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\logic.h">
+    <ClInclude Include="Source\bgSubtract.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\componentExtract.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\morphology.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

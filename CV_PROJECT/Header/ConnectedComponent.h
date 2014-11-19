@@ -8,7 +8,8 @@
 #include <queue>
 
 #define DIRECTION 0					// 1 for 8-direction, 0 for 4-direction
-#define THRESHOLD 150				// less than THRESHOLD is noise.
+#define THRESHOLD 250				// less than THRESHOLD is noise.
+
 
 using namespace std;
 using namespace cv;
@@ -21,7 +22,7 @@ inline void findComponentContour(Mat &diffBool, vector<Component> &object, Mat &
 	///Detect edges using Threshold
 	//threshold(src_gray, threshold_output, thresh, 255, THRESH_BINARY);
 	/// Find contours
-	findContours(diffBool, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+	findContours(diffBool, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
 	vector<vector<Point> > contours_poly(contours.size());
 	vector<Rect> boundRect(contours.size());
 	vector<Point2f>center(contours.size());
@@ -30,14 +31,13 @@ inline void findComponentContour(Mat &diffBool, vector<Component> &object, Mat &
 	for ( int i = 0; i < contours.size(); i++ ) {
 		//approxPolyDP(Mat(contours[i]), contours_poly[i], 5, true);
 		double area = contourArea(contours[i]);
-		if ( area < 1000.0 ) {
+		if ( area < THRESHOLD ) {
 			render[i] = false;
 		}
 		else {
 			render[i] = true;
 			boundRect[i] = boundingRect(Mat(contours[i]));
 			Component newCom = Component(Point( (boundRect[i].br().x + boundRect[i].tl().x) / 2, (boundRect[i].br().y + boundRect[i].tl().y) / 2), boundRect[i].tl(), boundRect[i].br(), area, 0, 0);
-			
 			object.push_back(newCom);
 		}
 		//minEnclosingCircle((Mat)contours_poly[i], center[i], radius[i]);

@@ -20,11 +20,15 @@ public:
 	Point rect_br;
 	int size;
 	vector<Point> path;
+	vector<Component> subComponents;
 	int type;
 	int id;
 	Component();
 	Component(Point cm, Point rect_tl, Point rect_br, int size, int type, int id);
 	void addPath(Point newPoint);
+	void addSubComponent(Component component);
+	float getWidth();
+	float getHeight();
 	~Component();
 };
 #endif // !_COMPONENT

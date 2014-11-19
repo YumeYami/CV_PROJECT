@@ -36,6 +36,12 @@
     <ClInclude Include="Source\morphology.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\draw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NewComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\person_tracking_main.cpp">
@@ -48,6 +54,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Person.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NewComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

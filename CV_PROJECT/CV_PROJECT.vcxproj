@@ -14,14 +14,17 @@
     <ClInclude Include="Source\bgSubtract.h" />
     <ClInclude Include="Source\Component.h" />
     <ClInclude Include="Source\componentExtract.h" />
+    <ClInclude Include="Source\draw.h" />
     <ClInclude Include="Source\Item.h" />
     <ClInclude Include="Source\logic.h" />
     <ClInclude Include="Source\morphology.h" />
+    <ClInclude Include="Source\NewComponent.h" />
     <ClInclude Include="Source\Person.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\Item.cpp" />
+    <ClCompile Include="Source\NewComponent.cpp" />
     <ClCompile Include="Source\Person.cpp" />
     <ClCompile Include="Source\person_tracking_main.cpp" />
   </ItemGroup>

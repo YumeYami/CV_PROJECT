@@ -4,18 +4,24 @@
 #include <iostream>
 #include <list>
 #include "Component.h"
+#include "bgSubtract.h"
 #include "componentExtract.h"
 #include "logic.h"
-#include "bgSubtract.h"
+#include "draw.h"
 
 #define INIT_SKIP_FRAME 20
 #define WHITE Scalar(255,255,255)
-#define RED Scalar (0,0,255)
+#define IMG_NUM string "5"
+
 using namespace cv;
 using namespace std;
-
+///old version
 vector<Component> personList;
 vector<Component> nonpersonList;
+///new version
+vector<Component> components;
+vector<Person> personList2;
+vector<Item> itemList;
 int thresholdCM = 100;
 string imgNum = "1";
 RNG rng(12345);
@@ -29,7 +35,9 @@ int main() {
 		return -1;
 	}
 	Mat f, diffBool, bg, foreground;
+	///skip empty frame
 	do { cap >> f; } while ( f.empty() );
+	///skip initial frame
 	//for ( int i = 0; i < INIT_SKIP_FRAME; i++ ) cap >> f;
 	cap >> bg;
 	bool loop = true, showPath = true;
@@ -53,12 +61,7 @@ int main() {
 			cout << "\n";
 		}
 		if ( showPath ) {
-#pragma omp parallel for
-			for ( int i = 0; i < personList.size(); i++ ) {
-				for ( int j = 1; j < personList[i].path.size(); j++ ) {
-					line(foreground, personList[i].path[j], personList[i].path[j - 1], RED, 1, 8, 0);
-				}
-			}
+			drawPersonPath(foreground, personList);
 		}
 		imshow("foreground", foreground);
 		switch ( waitKey(10) ) {

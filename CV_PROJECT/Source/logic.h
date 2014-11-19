@@ -70,6 +70,13 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 	nonpersonList = newNonpersonList;
 }
 
-void updateComponent2(vector<Component> &currComponents, vector<Component> &prevComponents,vector<Person> &personList, vector<Item> &itemList) {
+void updateNewComponent(vector<Component> &currComponents, vector<Component> &prevComponents,vector<Person> &personList, vector<Item> &itemList) {
 	vector<Component> newComp;
+	for ( unsigned int i = 0; i < currComponents.size(); i++ ) {
+		if ( currComponents[i].id == CHECKED ) continue;
+		int pID = 0;
+		for ( unsigned int i = 0; i < currComponents.size(); i++ ) {
+
+		}
+	}
 }

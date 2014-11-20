@@ -1,7 +1,5 @@
-#ifndef _LOGIC
-#define _LOGIC
-
-#include "Header/personID.h"
+#pragma once
+#include "Component.h"
 int _threshold = 0;
 int _thresholdSameThings = 5;
 
@@ -141,11 +139,20 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 		//new component is new person
 		if (newComponent[i].id != CHECKED){ 
 			newComponent[i].addPath(newComponent[i].cm);
-			addToComponentList(PERSON, newPersonList, newComponent[i], personID::serial++);
+			addToComponentList(PERSON, newPersonList, newComponent[i], Person::personCounter++);
 		}
 	}
 	personList = newPersonList;
 	nonpersonList = newNonpersonList;
 }
 
-#endif // !_LOGIC
+void updateNewComponent(vector<Component> &currComponents, vector<Component> &prevComponents,vector<Person> &personList, vector<Item> &itemList) {
+	vector<Component> newComp;
+	for ( unsigned int i = 0; i < currComponents.size(); i++ ) {
+		if ( currComponents[i].id == CHECKED ) continue;
+		int pID = 0;
+		for ( unsigned int i = 0; i < currComponents.size(); i++ ) {
+
+		}
+	}
+}

@@ -10,6 +10,32 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\bgSubtract.h" />
+    <ClInclude Include="Source\Component.h" />
+    <ClInclude Include="Source\componentExtract.h" />
+    <ClInclude Include="Source\draw.h" />
+    <ClInclude Include="Source\Item.h" />
+    <ClInclude Include="Source\logic.h" />
+    <ClInclude Include="Source\morphology.h" />
+    <ClInclude Include="Source\NewComponent.h" />
+    <ClInclude Include="Source\Person.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Component.cpp" />
+    <ClCompile Include="Source\Item.cpp" />
+    <ClCompile Include="Source\NewComponent.cpp" />
+    <ClCompile Include="Source\Person.cpp" />
+    <ClCompile Include="Source\person_tracking_main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="SampleVideo\IMG1.mp4" />
+    <Media Include="SampleVideo\IMG2.mp4" />
+    <Media Include="SampleVideo\IMG3.mp4" />
+    <Media Include="SampleVideo\IMG4.mp4" />
+    <Media Include="SampleVideo\IMG5.mp4" />
+    <Media Include="SampleVideo\IMG6.mp4" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F7F37235-6F35-4CF9-9399-B47BE13DB844}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -84,19 +110,6 @@
       <AdditionalDependencies>opencv_core249.lib;opencv_imgproc249.lib;opencv_highgui249.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Component.cpp" />
-    <ClCompile Include="personID.cpp" />
-    <ClCompile Include="person_tracking_main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Header\BgDiff.h" />
-    <ClInclude Include="Header\Component.h" />
-    <ClInclude Include="Header\ConnectedComponent.h" />
-    <ClInclude Include="Header\Logic.h" />
-    <ClInclude Include="Header\personID.h" />
-    <ClInclude Include="Morphology.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

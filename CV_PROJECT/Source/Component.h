@@ -1,11 +1,11 @@
-#ifndef _COMPONENT
-#define _COMPONENT
-
-#include "opencv2\imgproc\imgproc.hpp"
-#include "opencv2\core\core.hpp"
-#include "opencv2\highgui\highgui.hpp"
+#pragma once
+#include <opencv2\imgproc\imgproc.hpp>
+#include <opencv2\core\core.hpp>
+#include <opencv2\highgui\highgui.hpp>
 #include <iostream>
 #include <list>
+#include "Person.h"
+#include "Item.h"
 
 #define PERSON 0
 #define NON_PERSON 1
@@ -21,6 +21,8 @@ public:
 	int size;
 	vector<Point> path;
 	vector<Component> subComponents;
+	vector<Person*> personList;
+	vector<Item*> itemList;
 	int type;
 	int id;
 	Component();
@@ -31,4 +33,3 @@ public:
 	float getHeight();
 	~Component();
 };
-#endif // !_COMPONENT

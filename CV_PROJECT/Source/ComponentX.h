@@ -7,27 +7,28 @@
 #include "Person.h"
 #include "Item.h"
 
-#define PERSON 0
-#define NON_PERSON 1
-#define CHECKED -1
+#define COMP_CHECKED 1
+#define COMP_UNCHECKED 0
 
 using namespace cv;
 using namespace std;
 
-class NewComponent {
+class ComponentX {
 public:
 
 	Point cm;
 	Point rect_tl;
 	Point rect_br;
-	int size;
+	int size=0;
+	int checkStatus = COMP_UNCHECKED;
 	vector<Point> path;
-	vector<Person*> personList;
-	vector<Item*> itemList;
+	Person a;
+	vector<Person*> personListLink;
+	vector<Item*> itemListLink;
+
 	int id;
-	NewComponent();
-	NewComponent(Point cm, Point rect_tl, Point rect_br, int size, int id);
+	ComponentX(Point cm, Point rect_tl, Point rect_br, int size, int id);
 	void addPath(Point newPoint);
-	~NewComponent();
+	~ComponentX();
 };
 

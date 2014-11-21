@@ -30,16 +30,16 @@
     <ClInclude Include="Source\bgSubtract.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\componentExtract.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\morphology.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\draw.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\NewComponent.h">
+    <ClInclude Include="Source\extractor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ComponentX.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -56,7 +56,7 @@
     <ClCompile Include="Source\Person.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\NewComponent.cpp">
+    <ClCompile Include="Source\ComponentX.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

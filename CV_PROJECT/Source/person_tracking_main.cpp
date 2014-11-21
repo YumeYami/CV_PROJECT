@@ -4,8 +4,9 @@
 #include <iostream>
 #include <list>
 #include "Component.h"
+#include "ComponentX.h"
 #include "bgSubtract.h"
-#include "componentExtract.h"
+#include "extractor.h"
 #include "logic.h"
 #include "draw.h"
 
@@ -19,11 +20,13 @@ using namespace std;
 vector<Component> personList;
 vector<Component> nonpersonList;
 ///new version
-vector<Component> components;
-vector<Person> personList2;
-vector<Item> itemList;
+vector<ComponentX> componentX;
+vector<Person> personListX;
+vector<Item> itemListX;
+vector<Item> unknowListX;
+
 int thresholdCM = 100;
-string imgNum = "5";
+string imgNum = "6";
 RNG rng(12345);
 
 int main() {
@@ -47,15 +50,20 @@ int main() {
 		imshow("background", f);
 		bgSubtract(bg, f, diffBool, foreground);
 		//bgSubtractRGB(bg, f, diffBool, foreground);
+		///old version
 		vector<Component> newFrameComponent;
 		findComponentContour(diffBool, newFrameComponent, foreground);
-		//cout << "component num: " << newFrameComponent.size() << "\n";
-		
 		updateComponent(newFrameComponent, personList, nonpersonList, thresholdCM);
+// 		///new version
+// 		vector<ComponentX> newComponentX;
+// 		findComponentXContour(diffBool, newComponentX, foreground);
+// 		updateComponentX(newComponentX, componentX, personListX, itemListX);
+// 		///
+
 		cout << "person: " << personList.size() << " nonperson: " << nonpersonList.size() << "\n";
 		if ( !personList.empty() ) {
 			cout << "personID: ";
-			for ( int i = 0; i < personList.size(); i++ ) {
+			for (unsigned int i = 0; i < personList.size(); i++ ) {
 				cout << personList[i].id << " ";
 			}
 			cout << "\n";

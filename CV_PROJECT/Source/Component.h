@@ -7,8 +7,11 @@
 #include "Person.h"
 #include "Item.h"
 
-#define PERSON 0
-#define NON_PERSON 1
+#define NOISE -1
+#define UNKNOWN 0
+#define PERSON 1
+#define NON_PERSON 2
+
 #define CHECKED -1
 using namespace cv;
 using namespace std;

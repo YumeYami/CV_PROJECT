@@ -12,7 +12,6 @@
 
 #define INIT_SKIP_FRAME 20
 #define WHITE Scalar(255,255,255)
-#define IMG_NUM string "5"
 
 using namespace cv;
 using namespace std;
@@ -31,7 +30,8 @@ RNG rng(12345);
 
 int main() {
 	cout << "start...\n";
-	VideoCapture cap("SampleVideo/IMG" + imgNum + ".mp4");
+	//VideoCapture cap("SampleVideo/IMG" + imgNum + ".mp4");
+	VideoCapture cap("video/video0" + imgNum + ".mp4");
 	//VideoCapture cap(0);
 	if ( !cap.isOpened() ) {
 		cout << "video error\n";
@@ -68,6 +68,7 @@ int main() {
 			}
 			cout << "\n";
 		}
+		drawComponents(foreground, newFrameComponent);
 		if ( showPath ) {
 			drawPersonPath(foreground, personList);
 		}

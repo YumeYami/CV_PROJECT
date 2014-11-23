@@ -37,22 +37,11 @@ inline void findComponentContour(Mat &diffBool, vector<Component> &object, Mat &
  			//Moments mm = moments(contours[i], true);
  			//Point cm = Point(mm.m10 / mm.m00, mm.m01 / mm.m00);
 			boundRect[i] = boundingRect(Mat(contours[i]));
-			Component newCom = Component(Point((boundRect[i].br().x + boundRect[i].tl().x) / 2, (boundRect[i].br().y + boundRect[i].tl().y) / 2), boundRect[i].tl(), boundRect[i].br(), area, 0, 0);
+			Component newCom = Component(Point((boundRect[i].br().x + boundRect[i].tl().x) / 2, (boundRect[i].br().y + boundRect[i].tl().y) / 2), boundRect[i].tl(), boundRect[i].br(), area, UNKNOWN, 0);
 			//Component newCom = Component(cm, boundRect[i].tl(), boundRect[i].br(), area, 0, 0);
 			object.push_back(newCom);
 		}
 		//minEnclosingCircle((Mat)contours_poly[i], center[i], radius[i]);
-	}
-	/// Draw polygonal contour + bonding rect + circles
-	Mat drawing = Mat::zeros(diffBool.size(), CV_8UC3);
-	for (unsigned int i = 0; i < contours.size(); i++ ) {
-		//Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-		Scalar color = Scalar(255, 255, 255);
-		if ( render[i] = true ) {
-			drawContours(foreground, contours, i, color, 1, 8, vector<Vec4i>(), 0, Point());
-			rectangle(foreground, boundRect[i].tl(), boundRect[i].br(), color, 2, 8, 0);
-		}
-		//circle(drawing, center[i], (int)radius[i], color, 2, 8, 0);
 	}
 }
 

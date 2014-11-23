@@ -30,7 +30,7 @@ RNG rng(12345);
 
 int main() {
 	cout << "start...\n";
-	//VideoCapture cap("SampleVideo/IMG" + imgNum + ".mp4");
+	//VideoCapture cap("video/IMG" + imgNum + ".mp4");
 	VideoCapture cap("video/video0" + imgNum + ".mp4");
 	//VideoCapture cap(0);
 	if ( !cap.isOpened() ) {

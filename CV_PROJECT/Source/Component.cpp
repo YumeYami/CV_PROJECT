@@ -24,8 +24,8 @@ void Component::addSubComponent(Component component){
 }
 
 int Component::getWidth(){
-	return rect_tl.x - rect_br.x;
+	return rect_br.x - rect_tl.x;
 }
 int Component::getHeight(){
-	return rect_tl.y - rect_br.y;
+	return rect_br.y - rect_tl.y;
 }

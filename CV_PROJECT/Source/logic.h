@@ -94,7 +94,7 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 					if ( farFromObject_x || farFromObject_y ) {
 						//person is far from object but component isn't split then the person is holding the object
 						//and the object isn't belong to the person
-						cout << "PersonID " << pID << "is Thief!!";
+						cout << "PersonID " << pID << " is Thief!!" << "\n";
 					}
 				}
 			}

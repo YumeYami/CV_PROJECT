@@ -25,7 +25,7 @@ vector<Item> itemListX;
 vector<Item> unknowListX;
 
 int thresholdCM = 100;
-string imgNum = "6";
+string imgNum = "4";
 RNG rng(12345);
 int posX, posY;
 bool click = false;
@@ -64,22 +64,15 @@ int main() {
 		vector<Component> newFrameComponent;
 		findComponentContour(diffBool, newFrameComponent, foreground);
 		updateComponent(newFrameComponent, personList, nonpersonList, thresholdCM);
-		// 		///new version
+		///new version
 		// 		vector<ComponentX> newComponentX;
 		// 		findComponentXContour(diffBool, newComponentX, foreground);
 		// 		updateComponentX(newComponentX, componentX, personListX, itemListX);
 		// 		///
 
-		cout << "person: " << personList.size() << " nonperson: " << nonpersonList.size() << "\n";
-		if (!personList.empty()) {
-			cout << "personID: ";
-			for (unsigned int i = 0; i < personList.size(); i++) {
-				cout << personList[i].id << " ";
-			}
-			cout << "\n";
-		}
 		drawComponents(foreground, newFrameComponent);
 		drawPersonPath(foreground, personList, posX, posY, click);
+		drawTextStatus(foreground, personList, nonpersonList);
 		click = false;
 		imshow("foreground", foreground);
 		

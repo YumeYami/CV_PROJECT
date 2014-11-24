@@ -105,7 +105,10 @@ int main() {
 				break;
 			case 'm': eachframe = !eachframe; break;
 		}
-		if (eachframe) system("pause");
+		if (eachframe) {
+			char c = waitKey(0);
+			if (c == 'm') eachframe = !eachframe;
+		}
 	}
 	cout << "end video\n";
 	//getchar();

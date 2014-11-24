@@ -82,11 +82,15 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 						printf("dot [%d %d %d] [%d %d] %d\n", v1[0], v1[1], groupList[j].subComponents[0].id, v3[0], v3[1], dot(v1, v3));
 						if (dot(v1, v3) > 0) {		// > 0 means เดินสวนกัน => subComponent[0] equals newComponent[i]
 							printf("1 %d %d\n", groupList[j].subComponents[0].id, groupList[j].subComponents[1].id);
+							newComponent[i].path = groupList[j].subComponents[0].path;
+							newComponent[k].path = groupList[j].subComponents[1].path;
 							addToComponentList(PERSON, newPersonList, newComponent[i], groupList[j].subComponents[0].id);
 							addToComponentList(PERSON, newPersonList, newComponent[k], groupList[j].subComponents[1].id);
 						}
 						else {
 							printf("2 %d %d\n", groupList[j].subComponents[0].id, groupList[j].subComponents[1].id);
+							newComponent[i].path = groupList[j].subComponents[1].path;
+							newComponent[k].path = groupList[j].subComponents[0].path;
 							addToComponentList(PERSON, newPersonList, newComponent[i], groupList[j].subComponents[1].id);
 							addToComponentList(PERSON, newPersonList, newComponent[k], groupList[j].subComponents[0].id);
 						}

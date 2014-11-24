@@ -36,6 +36,8 @@ public:
 	int mergeStatus = UNCHECKED;
 	bool showPath;
 	bool isThief = NOT_THIEF;
+	Scalar color;
+
 	Component();
 	Component(Point cm, Point rect_tl, Point rect_br, int size, int type, int id);
 	void addPath(Point newPoint);
@@ -43,5 +45,6 @@ public:
 	int getWidth();
 	int getHeight();
 	bool isInComponent(int x, int y);
+	void Component::setColor();
 	~Component();
 };

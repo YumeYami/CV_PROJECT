@@ -25,8 +25,7 @@ vector<Item> itemListX;
 vector<Item> unknowListX;
 
 int thresholdCM = 40;
-string imgNum = "4";
-RNG rng(12345);
+string imgNum = "7";
 int posX, posY;
 bool click = false;
 void onMouse(int e, int x, int y, int fl, void*){

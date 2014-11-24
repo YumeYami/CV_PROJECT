@@ -36,3 +36,10 @@ bool Component::isInComponent(int x, int y){
 	}
 	return false;
 }
+void Component::setColor() {
+	RNG rng(this->id);
+	int r = rng.uniform(0, 255);
+	int g = rng.uniform(0, 255);
+	int b = rng.uniform(0, 255);
+	this->color = Scalar(r, g, b);
+}

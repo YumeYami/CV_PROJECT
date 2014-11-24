@@ -14,15 +14,18 @@ void drawComponents(Mat &foreground, vector<Component> components) {
 		//Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
 		Scalar color = Scalar(255, 255, 255);
 		//drawContours(foreground, components, i, color, 1, 8, vector<Vec4i>(), 0, Point());
-		rectangle(foreground, components[i].rect_tl, components[i].rect_br, color, 2, 8, 0);
+		rectangle(foreground, components[i].rect_tl, components[i].rect_br, components[i].color, 2, 8, 0);
 		string str;
 		if (components[i].type == PERSON) str = "Person: ";
 		else if (components[i].type == NON_PERSON) str = "Item: ";
 		else str = "UNKNOWN";
-		putText(foreground, str + to_string(components[i].id), components[i].rect_tl, FONT_HERSHEY_PLAIN, FONT_SCALE, WHITE);
+
+		if (str != "UNKNOWN") {
+			putText(foreground, str + to_string(components[i].id), components[i].rect_tl, FONT_HERSHEY_PLAIN, FONT_SCALE, WHITE);
+		}
 		//circle(drawing, center[i], (int)radius[i], color, 2, 8, 0);
 	}
-	rectangle(foreground, Point(50, 50), Point(960-50, 540-50), Scalar(255, 0, 0), 2, 8, 0);
+	//rectangle(foreground, Point(50, 50), Point(960-50, 540-50), Scalar(255, 0, 0), 2, 8, 0);
 }
 
 void drawPersonPath(Mat &foreground, vector<Component> &personList, int x, int y, bool click) {
@@ -34,7 +37,7 @@ void drawPersonPath(Mat &foreground, vector<Component> &personList, int x, int y
 		}
 		if ( personList[i].showPath ) {
 			for ( int j = 1; j < personList[i].path.size(); j++ ) {
-				line(foreground, personList[i].path[j], personList[i].path[j - 1], RED, 1, 8, 0);
+				line(foreground, personList[i].path[j], personList[i].path[j - 1], personList[i].color, 1, 8, 0);
 			}
 		}
 
@@ -60,4 +63,8 @@ void drawTextStatus(Mat &foreground, vector<Component> personList, vector<Compon
 			putText(foreground, item, Point(20, 490), FONT_HERSHEY_PLAIN, FONT_SCALE, WHITE);
 		}
 	}
+
+	// draw Instruction
+	putText(foreground, "Press p to pause", Point(650, 480), FONT_HERSHEY_PLAIN, FONT_SCALE, WHITE);
+	putText(foreground, "Click person to show the path", Point(650, 510), FONT_HERSHEY_PLAIN, FONT_SCALE, WHITE);
 }

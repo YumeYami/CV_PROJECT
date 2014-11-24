@@ -7,7 +7,7 @@
 
 #define FRAME_WIDTH 480
 #define FRAME_HEIGHT 270
-#define THRESHOLD_PERSON 200
+#define THRESHOLD_PERSON 500
 
 int _threshold = 0;
 int _thresholdSameThings = 5;
@@ -35,6 +35,7 @@ bool isSameThings(Component a, Component b) {
 void addToComponentList(int type, vector<Component> &componentList, Component &newComponent, int id) {
 	newComponent.type = type;
 	newComponent.id = id;
+	newComponent.setColor();
 	componentList.push_back(newComponent);
 	newComponent.status = CHECKED;
 }
@@ -144,10 +145,13 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 		//new component is new person
 		if ( newComponent[i].status != CHECKED ) {
 			newComponent[i].addPath(newComponent[i].cm);
-			if (abs(newComponent[i].rect_br.x-FRAME_WIDTH) < FRAME_WIDTH - 50 && abs(newComponent[i].rect_br.y-FRAME_HEIGHT) < FRAME_HEIGHT - 50 && newComponent[i].size < THRESHOLD_PERSON) {
+			if (abs(newComponent[i].rect_br.x-FRAME_WIDTH) < FRAME_WIDTH - 50 && abs(newComponent[i].rect_br.y-FRAME_HEIGHT) < FRAME_HEIGHT - 50 
+				&& newComponent[i].size < THRESHOLD_PERSON) {
 				
 			}
-			else addToComponentList(PERSON, newPersonList, newComponent[i], Person::personCounter++);
+			else {
+				addToComponentList(PERSON, newPersonList, newComponent[i], Person::personCounter++);
+			}
 		}
 	}
 	personList = newPersonList;

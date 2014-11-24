@@ -10,11 +10,15 @@
 #define NOISE -1
 
 #define UNKNOWN 0
-#define PERSON 1
-#define NON_PERSON 2
+#define PERSON -4
+#define NON_PERSON -5
 
-#define CHECKED -1
-#define UNCHECKED 0
+#define CHECKED -3
+#define UNCHECKED -2
+
+#define THIEF true
+#define NOT_THIEF false
+
 using namespace cv;
 using namespace std;
 
@@ -31,6 +35,7 @@ public:
 	int status = UNCHECKED;
 	int mergeStatus = UNCHECKED;
 	bool showPath;
+	bool isThief = NOT_THIEF;
 	Component();
 	Component(Point cm, Point rect_tl, Point rect_br, int size, int type, int id);
 	void addPath(Point newPoint);

@@ -18,6 +18,7 @@ void drawComponents(Mat &foreground, vector<Component> components) {
 		putText(foreground, to_string(components[i].type) + ": " + to_string(components[i].id), components[i].rect_tl, FONT_HERSHEY_PLAIN, FONT_SCALE, WHITE);
 		//circle(drawing, center[i], (int)radius[i], color, 2, 8, 0);
 	}
+	rectangle(foreground, Point(50, 50), Point(960-50, 540-50), Scalar(255, 0, 0), 2, 8, 0);
 }
 
 void drawPersonPath(Mat &foreground, vector<Component> &personList, int x, int y, bool click) {
@@ -39,10 +40,17 @@ void drawPersonPath(Mat &foreground, vector<Component> &personList, int x, int y
 void drawTextStatus(Mat &foreground, vector<Component> personList, vector<Component>nonpersonList) {
 	putText(foreground, "person: " + to_string(personList.size()) + " nonperson: " + to_string(nonpersonList.size()), Point(20, 20), FONT_HERSHEY_PLAIN, FONT_SCALE, WHITE);
 	for ( unsigned int i = 0; i < personList.size(); i++ ) {
-		if ( personList[i].subComponents.size() ) {
-			putText(foreground, "personID " + to_string(personList.size()) + " is thief ", Point(20, 440), FONT_HERSHEY_PLAIN, FONT_SCALE, WHITE);
+		if ( personList[i].isThief == THIEF ) {
+			putText(foreground, "personID " + to_string(personList[i].id) + " is thief ", Point(20, 440), FONT_HERSHEY_PLAIN, FONT_SCALE, WHITE);
 			string item = "item: ";
 			for ( unsigned j = 0; j < personList[i].subComponents.size(); j++ ) {
+				item += to_string(personList[i].subComponents[j].id);
+			}
+			putText(foreground, item, Point(20, 490), FONT_HERSHEY_PLAIN, FONT_SCALE, WHITE);
+		}
+		else if (personList[i].subComponents.size() > 0) {
+			string item = "item: ";
+			for (unsigned j = 0; j < personList[i].subComponents.size(); j++) {
 				item += to_string(personList[i].subComponents[j].id);
 			}
 			putText(foreground, item, Point(20, 490), FONT_HERSHEY_PLAIN, FONT_SCALE, WHITE);

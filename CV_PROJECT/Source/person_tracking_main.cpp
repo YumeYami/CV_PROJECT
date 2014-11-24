@@ -24,7 +24,7 @@ vector<Person> personListX;
 vector<Item> itemListX;
 vector<Item> unknowListX;
 
-int thresholdCM = 100;
+int thresholdCM = 40;
 string imgNum = "4";
 RNG rng(12345);
 int posX, posY;

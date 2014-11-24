@@ -1,15 +1,27 @@
 #pragma once
 #include "Component.h"
 #include "ComponentX.h"
+
+// define MERGE_THRESHOLD
+#include "extractor.h"
+
+#define FRAME_WIDTH 480
+#define FRAME_HEIGHT 270
+#define THRESHOLD_PERSON 200
+
 int _threshold = 0;
 int _thresholdSameThings = 5;
 
 bool isOverlapped(Component a, Component b) {
-	double cmDiff = pow(a.cm.x - b.cm.x, 2) + pow(a.cm.y - b.cm.y, 2);
-	if ( cmDiff <= _threshold*_threshold ) {
+	//double cmDiff = pow(a.cm.x - b.cm.x, 2) + pow(a.cm.y - b.cm.y, 2);
+	//if ( cmDiff <= _threshold*_threshold ) {
+	//	return true;
+	//}
+	//return false;
+	if (abs(a.cm.x - b.cm.x) < (a.getWidth() + b.getWidth()) / 2 && abs(a.cm.y - b.cm.y) < (a.getHeight() + b.getHeight()) / 2 )
 		return true;
-	}
-	return false;
+	else
+		return false;
 }
 
 bool isSameThings(Component a, Component b) {
@@ -82,7 +94,7 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 			break;
 		}
 		if ( person != nullptr ) {
-			if ( person->subComponents.size() != 0 ) {
+			if ( person->subComponents.size() != 0 ) {		// เอาของไปด้วยหรือเปล่า
 				vector<Component>* subComponents = &person->subComponents;
 				int pWidth = person->getWidth();
 				int pHeight = person->getHeight();
@@ -96,11 +108,12 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 					if ( farFromObject_x || farFromObject_y ) {
 						//person is far from object but component isn't split then the person is holding the object
 						//and the object isn't belong to the person
+						person->isThief = THIEF;
 						cout << "PersonID " << pID << " is Thief!!" << "\n";
 					}
 				}
 			}
-			for ( unsigned int j = 0; j < nonpersonList.size(); j++ ) {
+			for ( unsigned int j = 0; j < nonpersonList.size(); j++ ) {		// เดินผ่านของหรือเปล่า
 				if ( isOverlapped(newComponent[i], nonpersonList[j]) ) {
 					if ( nonpersonList[j].id != pID ) {
 						person->addSubComponent(nonpersonList[j]);
@@ -121,7 +134,10 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 		//new component is new person
 		if ( newComponent[i].status != CHECKED ) {
 			newComponent[i].addPath(newComponent[i].cm);
-			addToComponentList(PERSON, newPersonList, newComponent[i], Person::personCounter++);
+			if (abs(newComponent[i].rect_br.x-FRAME_WIDTH) < FRAME_WIDTH - 50 && abs(newComponent[i].rect_br.y-FRAME_HEIGHT) < FRAME_HEIGHT - 50 && newComponent[i].size < THRESHOLD_PERSON) {
+				
+			}
+			else addToComponentList(PERSON, newPersonList, newComponent[i], Person::personCounter++);
 		}
 	}
 	personList = newPersonList;

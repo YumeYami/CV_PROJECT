@@ -8,7 +8,7 @@
 
 #define DIRECTION 0					// 1 for 8-direction, 0 for 4-direction
 #define AREA_THRESHOLD 20				// less than THRESHOLD is noise.
-#define MERGE_THRESHOLD 30
+#define MERGE_THRESHOLD 19
 
 using namespace std;
 using namespace cv;

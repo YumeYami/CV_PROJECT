@@ -53,43 +53,26 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 			if ( !isOverlapped(newComponent[i], personList[j]) ) continue;
 			//assume that new component is person
 			person = &newComponent[i];
-			cout << "1" << (*person).rect_tl << " " << (*person).rect_br << "\n";
-			bool splitObject = false;
-			//for ( unsigned int n = 0; n < personList[j].subComponents.size(); n++ ) {
-			//	//component in personList is holding objects
-			//	if ( isSameThings(personList[j].subComponents[n], *person) ) {
-			//		
-			//		//ของที่คนเก่าถือเป็นอันเดียวกับ new component
-			//		splitObject = true;
-			//		cout << "erase1" << "\n";
-			//		personList[j].subComponents.erase(personList[j].subComponents.begin() + n);
-			//		break;
-			//	}
-			//}
 			for ( unsigned int k = i + 1; k < newComponent.size(); k++ ) {
 				if ( !isOverlapped(newComponent[k], personList[j]) )continue;
 				//component in person list is split
 				
 				if (newComponent[k].size > person->size) {
-					cout << "eras1" << "\n";
 					bool newObject = true;
 					if (personList[j].subComponents.size() != 0) {
 						for (unsigned int n = 0; n < personList[j].subComponents.size(); n++) {
 							if (isSameThings(personList[j].subComponents[n], *person)) {
 								newObject = false;
 								addToComponentList(NON_PERSON, newNonpersonList, *person, personList[j].subComponents[n].id);
-								cout << "erase2" << "\n";
 								personList[j].subComponents.erase(personList[j].subComponents.begin() + n);
 								break;
 							}
 						}
 					}
 					if (newObject){
-						cout << "add new obj 1" << "\n";
 						addToComponentList(NON_PERSON, newNonpersonList, *person, personList[j].id);
 					}
 					person = &newComponent[k];
-					cout << "2" << (*person).rect_tl << " " << (*person).rect_br << "\n";
 				}
 				else {
 					bool newObject = true;
@@ -98,14 +81,12 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 							if (isSameThings(personList[j].subComponents[n], newComponent[k])) {
 								newObject = false;
 								addToComponentList(NON_PERSON, newNonpersonList, newComponent[k], personList[j].subComponents[n].id);
-								cout << "erase4 " << personList[j].subComponents[n].id << "\n";
 								personList[j].subComponents.erase(personList[j].subComponents.begin() + n);
 								break;
 							}
 						}
 					}
 					if (newObject){
-						cout << "add new obj 2" << "\n";
 						addToComponentList(NON_PERSON, newNonpersonList, newComponent[k], personList[j].id);
 					}
 				}
@@ -134,9 +115,9 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 						//person is far from object but component isn't split then the person is holding the object
 						//and the object isn't belong to the person
 						person->isThief = THIEF;
-						cout << (*person).cm << " " << (*person).getWidth() << " " << (*person).getHeight() << "\n";
-						cout << (*person).rect_tl << " " << (*person).rect_br << "\n";
-						cout << (*subComponents)[i].cm << " " << (*subComponents)[i].getWidth() << " " << (*subComponents)[i].getHeight() << "\n";
+						//cout << (*person).cm << " " << (*person).getWidth() << " " << (*person).getHeight() << "\n";
+						//cout << (*person).rect_tl << " " << (*person).rect_br << "\n";
+						//cout << (*subComponents)[i].cm << " " << (*subComponents)[i].getWidth() << " " << (*subComponents)[i].getHeight() << "\n";
 						
 						cout << "PersonID " << pID << " is Thief!! " << farFromObject_x << farFromObject_y << " " << abs(pCM.x - sCM.x) << " " << pWidth << " " << sWidth << " " << person->subComponents.size() << "\n";
 					}

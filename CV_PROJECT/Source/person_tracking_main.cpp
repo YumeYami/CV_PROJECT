@@ -27,26 +27,36 @@ vector<Item> unknowListX;
 int thresholdCM = 100;
 string imgNum = "6";
 RNG rng(12345);
-
+int posX, posY;
+bool click = false;
+void onMouse(int e, int x, int y, int fl, void*){
+	if (e == EVENT_LBUTTONDOWN){
+		posX = x;
+		posY = y;
+		click = true;
+	}
+}
 int main() {
 	cout << "start...\n";
 	//VideoCapture cap("video/IMG" + imgNum + ".mp4");
 	VideoCapture cap("video/video0" + imgNum + ".mp4");
 	//VideoCapture cap(0);
-	if ( !cap.isOpened() ) {
+	if (!cap.isOpened()) {
 		cout << "video error\n";
 		return -1;
 	}
+	namedWindow("foreground");
+	setMouseCallback("foreground", onMouse);
 	Mat f, diffBool, bg, foreground;
 	///skip empty frame
-	do { cap >> f; } while ( f.empty() );
+	do { cap >> f; } while (f.empty());
 	///skip initial frame
 	//for ( int i = 0; i < INIT_SKIP_FRAME; i++ ) cap >> f;
 	cap >> bg;
-	bool loop = true, showPath = true;
-	while ( loop ) {
-		cap >> f;
-		if ( f.empty() ) break;
+	bool loop = true, pause = false;
+	while (loop) {
+		if (!pause) cap >> f;
+		if (f.empty()) break;
 		imshow("background", f);
 		bgSubtract(bg, f, diffBool, foreground);
 		//bgSubtractRGB(bg, f, diffBool, foreground);
@@ -54,28 +64,28 @@ int main() {
 		vector<Component> newFrameComponent;
 		findComponentContour(diffBool, newFrameComponent, foreground);
 		updateComponent(newFrameComponent, personList, nonpersonList, thresholdCM);
-// 		///new version
-// 		vector<ComponentX> newComponentX;
-// 		findComponentXContour(diffBool, newComponentX, foreground);
-// 		updateComponentX(newComponentX, componentX, personListX, itemListX);
-// 		///
+		// 		///new version
+		// 		vector<ComponentX> newComponentX;
+		// 		findComponentXContour(diffBool, newComponentX, foreground);
+		// 		updateComponentX(newComponentX, componentX, personListX, itemListX);
+		// 		///
 
 		cout << "person: " << personList.size() << " nonperson: " << nonpersonList.size() << "\n";
-		if ( !personList.empty() ) {
+		if (!personList.empty()) {
 			cout << "personID: ";
-			for (unsigned int i = 0; i < personList.size(); i++ ) {
+			for (unsigned int i = 0; i < personList.size(); i++) {
 				cout << personList[i].id << " ";
 			}
 			cout << "\n";
 		}
 		drawComponents(foreground, newFrameComponent);
-		if ( showPath ) {
-			drawPersonPath(foreground, personList);
-		}
+		drawPersonPath(foreground, personList, posX, posY, click);
+		click = false;
 		imshow("foreground", foreground);
-		switch ( waitKey(10) ) {
-			case 27: loop = false; break;
-			case 'p': showPath = !showPath; break;
+		
+		switch (waitKey(10)) {
+		case 27: loop = false; break;
+		case 'p': pause = !pause; break;
 		}
 	}
 	cout << "end video\n";

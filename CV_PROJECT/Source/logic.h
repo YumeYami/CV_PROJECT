@@ -5,7 +5,7 @@
 // define MERGE_THRESHOLD
 #include "extractor.h"
 
-#define THRESHOLD_PERSON 500
+#define THRESHOLD_PERSON 300
 
 int _threshold = 0;
 int _thresholdSameThings = 5;
@@ -197,7 +197,7 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 						//cout << (*person).rect_tl << " " << (*person).rect_br << "\n";
 						//cout << (*subComponents)[i].cm << " " << (*subComponents)[i].getWidth() << " " << (*subComponents)[i].getHeight() << "\n";
 						
-						cout << "PersonID " << pID << " is Thief!! " << farFromObject_x << farFromObject_y << " " << abs(pCM.x - sCM.x) << " " << pWidth << " " << sWidth << " " << person->subComponents.size() << "\n";
+						cout << "PersonID " << pID << " is Thief!! " << "\n";
 					}
 				}
 			}

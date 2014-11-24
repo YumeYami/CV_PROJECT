@@ -108,6 +108,7 @@ int main() {
 		if (eachframe) {
 			char c = waitKey(0);
 			if (c == 'm') eachframe = !eachframe;
+			else if (c == 27) loop = false;
 		}
 	}
 	cout << "end video\n";

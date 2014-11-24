@@ -28,8 +28,9 @@ int thresholdCM = 40;
 string imgNum = "7";
 int posX, posY;
 bool click = false;
-void onMouse(int e, int x, int y, int fl, void*){
-	if (e == EVENT_LBUTTONDOWN){
+bool bghsv = false;
+void onMouse(int e, int x, int y, int fl, void*) {
+	if ( e == EVENT_LBUTTONDOWN ) {
 		posX = x;
 		posY = y;
 		click = true;
@@ -40,7 +41,7 @@ int main() {
 	//VideoCapture cap("video/IMG" + imgNum + ".mp4");
 	VideoCapture cap("video/video0" + imgNum + ".mp4");
 	//VideoCapture cap(0);
-	if (!cap.isOpened()) {
+	if ( !cap.isOpened() ) {
 		cout << "video error\n";
 		return -1;
 	}
@@ -48,38 +49,44 @@ int main() {
 	setMouseCallback("foreground", onMouse);
 	Mat f, diffBool, bg, foreground;
 	///skip empty frame
-	do { cap >> f; } while (f.empty());
+	do { cap >> f; } while ( f.empty() );
 	///skip initial frame
 	//for ( int i = 0; i < INIT_SKIP_FRAME; i++ ) cap >> f;
 	cap >> bg;
 	bool loop = true, pause = false;
-	while (loop) {
-		vector<Component> newFrameComponent;
-		if (!pause) {
-			cap >> f;
-			if (f.empty()) break;
-			imshow("background", f);
+	while ( loop ) {
+		if ( !pause ) cap >> f;
+		if ( f.empty() ) break;
+		imshow("background", f);
+		if ( !bghsv ) {
 			bgSubtract(bg, f, diffBool, foreground);
-			//bgSubtractRGB(bg, f, diffBool, foreground);
-			///old version
-			
-			findComponentContour(diffBool, newFrameComponent, foreground);
-			updateComponent(newFrameComponent, personList, nonpersonList, thresholdCM);
-			///new version
-			// 		vector<ComponentX> newComponentX;
-			// 		findComponentXContour(diffBool, newComponentX, foreground);
-			// 		updateComponentX(newComponentX, componentX, personListX, itemListX);
-			// 		///
 		}
+		else {
+			bgSubtractHSV(bg, f, diffBool, foreground);
+		}
+		///old version
+		vector<Component> newFrameComponent;
+		findComponentContour(diffBool, newFrameComponent, foreground);
+		updateComponent(newFrameComponent, personList, nonpersonList, thresholdCM);
+		///new version
+		// 		vector<ComponentX> newComponentX;
+		// 		findComponentXContour(diffBool, newComponentX, foreground);
+		// 		updateComponentX(newComponentX, componentX, personListX, itemListX);
+		// 		///
+
 		drawComponents(foreground, newFrameComponent);
 		drawPersonPath(foreground, personList, posX, posY, click);
 		drawTextStatus(foreground, personList, nonpersonList);
 		click = false;
 		imshow("foreground", foreground);
-		
-		switch (waitKey(10)) {
-		case 27: loop = false; break;
-		case 'p': pause = !pause; break;
+
+		switch ( waitKey(10) ) {
+			case 27: loop = false; break;
+			case 'p': pause = !pause; break;
+			case 'b': 
+				bghsv = !bghsv;
+				cout << bghsv;
+				break;
 		}
 	}
 	cout << "end video\n";

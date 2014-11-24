@@ -7,7 +7,9 @@
 #include <list>
 
 #define DIFF_THRESHOLD 10
-#define DIFF_RGB_THRESHOLD 60
+#define DIFF_H_THRESHOLD 100
+#define DIFF_S_THRESHOLD 100
+#define DIFF_V_THRESHOLD 100
 #define OPENING_SIZE 2
 #define CLOSING_SIZE 3
 #define OPENING 0
@@ -24,32 +26,37 @@ inline void bgSubtract(Mat bg, Mat currFrame, Mat &diffBool, Mat &foreground) {
 	cvtColor(diff, diff, CV_BGR2GRAY);
 	diffBool = diff > DIFF_THRESHOLD;
 	imshow("diffBool", diffBool);
+
 	Morphology_Operations(diffBool, diffBool, OPENING, 0, OPENING_SIZE);
 	Morphology_Operations(diffBool, diffBool, CLOSING, 0, CLOSING_SIZE);
-
 	cvtColor(diffBool, diff, CV_GRAY2BGR);
 	//diff &= currFrame;
 	//imshow("diff", diff);
 	foreground = diff;
 }
-inline void bgSubtractRGB(Mat bg, Mat currFrame, Mat &diffBool, Mat &foreground) {
-	Mat diff;
-	absdiff(currFrame, bg, diff);
+inline void bgSubtractHSV(Mat bg, Mat currFrame, Mat &diffBool, Mat &foreground) {
+	Mat diff,bgHSV,currHSV;
 	diff.convertTo(diff, CV_8UC3);
-	Mat diffRGB[3];
-	split(diff, diffRGB);
-	diffBool = diffRGB[0];
-	//#pragma omp parallel for
-	for ( int i = 1; i < 3; i++ ) {
-		diffBool += diffRGB[i];
-	}
-	diffBool = diffBool > DIFF_RGB_THRESHOLD;
+	cvtColor(currFrame, currHSV, CV_BGR2HSV);
+	cvtColor(bg, bgHSV, CV_BGR2HSV);
+	absdiff(currHSV, bgHSV, diff);
+
+	Mat diffHSV[3];
+	split(diff, diffHSV);
+	Mat tmp1, tmp2;
+	///not same color
+	diffBool = diffHSV[0] > DIFF_H_THRESHOLD;
+	///same color
+	tmp1 = diffHSV[0] < DIFF_H_THRESHOLD;
+	tmp1 &= diffHSV[1] > DIFF_S_THRESHOLD;
+	tmp1 &= diffHSV[2] > DIFF_V_THRESHOLD;
+// 	diffBool |= tmp1;
+	
+	imshow("diffBool", diffBool);
+
 	Morphology_Operations(diffBool, diffBool, OPENING, 0, OPENING_SIZE);
 	Morphology_Operations(diffBool, diffBool, CLOSING, 0, CLOSING_SIZE);
-	//cvtColor(diff, diff, CV_BGR2GRAY);
-	//diffBool = diff > DIFF_THRESHOLD;
-	cvtColor(diffBool, diff, CV_GRAY2BGR);
 	//diff &= currFrame;
-	imshow("diff", diff);
-	foreground = diff;
+	//imshow("diff", diff);
+	foreground = diffBool;
 }

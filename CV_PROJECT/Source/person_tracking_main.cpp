@@ -55,21 +55,23 @@ int main() {
 	cap >> bg;
 	bool loop = true, pause = false;
 	while (loop) {
-		if (!pause) cap >> f;
-		if (f.empty()) break;
-		imshow("background", f);
-		bgSubtract(bg, f, diffBool, foreground);
-		//bgSubtractRGB(bg, f, diffBool, foreground);
-		///old version
 		vector<Component> newFrameComponent;
-		findComponentContour(diffBool, newFrameComponent, foreground);
-		updateComponent(newFrameComponent, personList, nonpersonList, thresholdCM);
-		///new version
-		// 		vector<ComponentX> newComponentX;
-		// 		findComponentXContour(diffBool, newComponentX, foreground);
-		// 		updateComponentX(newComponentX, componentX, personListX, itemListX);
-		// 		///
-
+		if (!pause) {
+			cap >> f;
+			if (f.empty()) break;
+			imshow("background", f);
+			bgSubtract(bg, f, diffBool, foreground);
+			//bgSubtractRGB(bg, f, diffBool, foreground);
+			///old version
+			
+			findComponentContour(diffBool, newFrameComponent, foreground);
+			updateComponent(newFrameComponent, personList, nonpersonList, thresholdCM);
+			///new version
+			// 		vector<ComponentX> newComponentX;
+			// 		findComponentXContour(diffBool, newComponentX, foreground);
+			// 		updateComponentX(newComponentX, componentX, personListX, itemListX);
+			// 		///
+		}
 		drawComponents(foreground, newFrameComponent);
 		drawPersonPath(foreground, personList, posX, posY, click);
 		drawTextStatus(foreground, personList, nonpersonList);

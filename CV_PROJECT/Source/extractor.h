@@ -4,16 +4,29 @@
 #include <opencv2\highgui\highgui.hpp>
 #include <iostream>
 #include <queue>
+#include <algorithm>
 
 #define DIRECTION 0					// 1 for 8-direction, 0 for 4-direction
 #define AREA_THRESHOLD 20				// less than THRESHOLD is noise.
-
+#define MERGE_THRESHOLD 30
 
 using namespace std;
 using namespace cv;
 
 inline Component fill_region(Mat, Point, int, Mat&);
 
+inline bool isMergeable(Component a, Component b) {
+	if ( abs(a.cm.x - b.cm.x) < (a.getWidth() + b.getWidth()) / 2 + MERGE_THRESHOLD && abs(a.cm.y - b.cm.y) < (a.getHeight() + b.getHeight()) / 2 + MERGE_THRESHOLD )
+		return true;
+	else
+		return false;
+}
+inline Component mergeComponent(Component a, Component b) {
+	Point tl = Point(min(a.rect_tl.x, b.rect_tl.x), min(a.rect_tl.y, b.rect_tl.y));
+	Point br = Point(max(a.rect_br.x, b.rect_br.x), max(a.rect_br.y, b.rect_br.y));
+	Point cm = Point((tl.x + br.x) / 2, (tl.y + br.y) / 2);
+	return Component(cm, tl, br, a.size + b.size, UNKNOWN, UNKNOWN);
+}
 inline void findComponentContour(Mat &diffBool, vector<Component> &object, Mat &foreground) {
 	vector<vector<Point> > contours;
 	vector<Vec4i> hierarchy;
@@ -25,23 +38,48 @@ inline void findComponentContour(Mat &diffBool, vector<Component> &object, Mat &
 	vector<Rect> boundRect(contours.size());
 	vector<Point2f>center(contours.size());
 	vector<float>radius(contours.size());
-	vector<bool>render(contours.size());
-	for (unsigned int i = 0; i < contours.size(); i++ ) {
-		//approxPolyDP(Mat(contours[i]), contours_poly[i], 5, true);
+	// 	vector<bool>render(contours.size());
+	// 	for (unsigned int i = 0; i < contours.size(); i++ ) {
+	// 		//approxPolyDP(Mat(contours[i]), contours_poly[i], 5, true);
+	// 		double area = contourArea(contours[i]);
+	// 		if ( area < AREA_THRESHOLD ) {
+	// 			render[i] = false;
+	// 		}
+	// 		else {
+	// 			render[i] = true;
+	//  			//Moments mm = moments(contours[i], true);
+	//  			//Point cm = Point(mm.m10 / mm.m00, mm.m01 / mm.m00);
+	// 			boundRect[i] = boundingRect(Mat(contours[i]));
+	// 			Component newCom = Component(Point((boundRect[i].br().x + boundRect[i].tl().x) / 2, (boundRect[i].br().y + boundRect[i].tl().y) / 2), boundRect[i].tl(), boundRect[i].br(), area, UNKNOWN, 0);
+	// 			//Component newCom = Component(cm, boundRect[i].tl(), boundRect[i].br(), area, 0, 0);
+	// 			object.push_back(newCom);
+	// 		}
+	// 		//minEnclosingCircle((Mat)contours_poly[i], center[i], radius[i]);
+	// 	}
+	vector<Component> components;
+	for ( unsigned int i = 0; i < contours.size(); i++ ) {
 		double area = contourArea(contours[i]);
 		if ( area < AREA_THRESHOLD ) {
-			render[i] = false;
+
 		}
 		else {
-			render[i] = true;
- 			//Moments mm = moments(contours[i], true);
- 			//Point cm = Point(mm.m10 / mm.m00, mm.m01 / mm.m00);
 			boundRect[i] = boundingRect(Mat(contours[i]));
-			Component newCom = Component(Point((boundRect[i].br().x + boundRect[i].tl().x) / 2, (boundRect[i].br().y + boundRect[i].tl().y) / 2), boundRect[i].tl(), boundRect[i].br(), area, UNKNOWN, 0);
-			//Component newCom = Component(cm, boundRect[i].tl(), boundRect[i].br(), area, 0, 0);
-			object.push_back(newCom);
+			Component newCom = Component(Point((boundRect[i].br().x + boundRect[i].tl().x) / 2, (boundRect[i].br().y + boundRect[i].tl().y) / 2), boundRect[i].tl(), boundRect[i].br(), area, UNKNOWN, UNKNOWN);
+			components.push_back(newCom);
 		}
-		//minEnclosingCircle((Mat)contours_poly[i], center[i], radius[i]);
+	}
+	for ( unsigned i = 0; i < components.size(); i++ ) {
+		if ( components[i].mergeStatus != UNCHECKED ) continue;
+		components[i].mergeStatus = CHECKED;
+		for ( unsigned int j = i + 1; j < components.size(); j++ ) {
+			if ( components[j].mergeStatus != UNCHECKED ) continue;
+			if ( isMergeable(components[i], components[j]) ) {
+				components[i] = mergeComponent(components[i], components[j]);
+				components[j].mergeStatus = CHECKED;
+				cout << "merge!!" << i << " " << j << "\n";
+			}
+		}
+		object.push_back(components[i]);
 	}
 }
 

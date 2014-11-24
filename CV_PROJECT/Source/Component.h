@@ -8,6 +8,7 @@
 #include "Item.h"
 
 #define NOISE -1
+
 #define UNKNOWN 0
 #define PERSON 1
 #define NON_PERSON 2
@@ -28,6 +29,7 @@ public:
 	int type;
 	int id;
 	int status = UNCHECKED;
+	int mergeStatus = UNCHECKED;
 	bool showPath;
 	Component();
 	Component(Point cm, Point rect_tl, Point rect_br, int size, int type, int id);

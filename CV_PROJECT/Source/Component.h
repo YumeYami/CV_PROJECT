@@ -31,7 +31,7 @@ public:
 	int size;
 	vector<Point> path;
 	vector<Component> subComponents;
-	Point oldPosition;
+	Point oldPosition = Point(0, 0), oldoldPosition = Point(0,0);
 	int type;
 	int id;
 	int status = UNCHECKED;

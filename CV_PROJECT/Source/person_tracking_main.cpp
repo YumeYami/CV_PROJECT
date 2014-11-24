@@ -26,7 +26,7 @@ vector<Item> itemListX;
 vector<Item> unknowListX;
 
 int thresholdCM = 40;
-string imgNum = "7";
+string imgNum = "8";
 int frameWidth;
 int frameHeight;
 int posX, posY;

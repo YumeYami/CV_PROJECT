@@ -40,6 +40,9 @@ void addToComponentList(int type, vector<Component> &componentList, Component &n
 	newComponent.type = type;
 	newComponent.id = id;
 	newComponent.setColor();
+	if (type == PERSON) {
+		newComponent.oldPosition = newComponent.cm;
+	}
 	componentList.push_back(newComponent);
 	newComponent.status = CHECKED;
 }
@@ -67,16 +70,24 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 						flag2 = 1;
 						//groupList[j].subComponents[1]
 						Vector<int> v1, v2, v3, v4;	// 1, 2 before merge, 3, 4 after merge
-						v1.push_back(groupList[j].cm.x - groupList[j].subComponents[0].cm.x);
-						v1.push_back(groupList[j].cm.y - groupList[j].subComponents[0].cm.y);
-						v2.push_back(groupList[j].cm.x - groupList[j].subComponents[1].cm.x);
-						v2.push_back(groupList[j].cm.y - groupList[j].subComponents[1].cm.y);
+						//v1.push_back(groupList[j].cm.x - groupList[j].subComponents[0].cm.x);
+						//v1.push_back(groupList[j].cm.y - groupList[j].subComponents[0].cm.y);
+						//v2.push_back(groupList[j].cm.x - groupList[j].subComponents[1].cm.x);
+						//v2.push_back(groupList[j].cm.y - groupList[j].subComponents[1].cm.y);
+						v1.push_back(groupList[j].subComponents[0].cm.x - groupList[j].subComponents[0].oldoldPosition.x);
+						v1.push_back(groupList[j].subComponents[0].cm.y - groupList[j].subComponents[0].oldoldPosition.y);
+						v2.push_back(groupList[j].subComponents[1].cm.x - groupList[j].subComponents[1].oldoldPosition.x);
+						v2.push_back(groupList[j].subComponents[1].cm.y - groupList[j].subComponents[1].oldoldPosition.y);
 
-						v3.push_back(newComponent[i].cm.x - groupList[j].cm.x);
-						v3.push_back(newComponent[i].cm.y - groupList[j].cm.y);
-						v4.push_back(newComponent[k].cm.x - groupList[j].cm.x);
-						v4.push_back(newComponent[k].cm.y - groupList[j].cm.y);
-						
+						//v3.push_back(newComponent[i].cm.x - groupList[j].cm.x);
+						//v3.push_back(newComponent[i].cm.y - groupList[j].cm.y);
+						//v4.push_back(newComponent[k].cm.x - groupList[j].cm.x);
+						//v4.push_back(newComponent[k].cm.y - groupList[j].cm.y);
+						v3.push_back(newComponent[i].cm.x - groupList[j].subComponents[0].cm.x);
+						v3.push_back(newComponent[i].cm.y - groupList[j].subComponents[0].cm.y);
+						v4.push_back(newComponent[k].cm.x - groupList[j].subComponents[1].cm.x);
+						v4.push_back(newComponent[k].cm.y - groupList[j].subComponents[1].cm.y);
+
 						cout << groupList[j].subComponents[0].cm << " " << groupList[j].subComponents[0].id << " " << groupList[j].subComponents[1].cm << " " << groupList[j].subComponents[1].id << "\n";
 						printf("%d %d %d %d\n", newComponent[i].cm.x, newComponent[i].cm.y, newComponent[k].cm.x, newComponent[k].cm.y);
 						printf("dot [%d %d %d] [%d %d] %d\n", v1[0], v1[1], groupList[j].subComponents[0].id, v3[0], v3[1], dot(v1, v3));
@@ -116,7 +127,7 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 		if (cnt > 1) {
 			for (int j = 0; j < personList.size(); j++) {
 				if (isOverlapped(newComponent[i], personList[j])) {
-					personList[j].oldPosition = personList[j].cm;
+					//personList[j].oldPosition = personList[j].cm;
 					newComponent[i].addSubComponent(personList[j]);
 				}
 			}
@@ -170,6 +181,7 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 				}
 			}
 			personList[j].addPath(person->cm);
+			person->oldoldPosition = personList[j].cm;
 			person->path = personList[j].path;
 			person->showPath = personList[j].showPath;
 			person->subComponents = personList[j].subComponents;

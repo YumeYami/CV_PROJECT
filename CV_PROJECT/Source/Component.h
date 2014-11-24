@@ -12,6 +12,7 @@
 #define UNKNOWN 0
 #define PERSON -4
 #define NON_PERSON -5
+#define GROUP -6
 
 #define CHECKED -3
 #define UNCHECKED -2
@@ -30,6 +31,7 @@ public:
 	int size;
 	vector<Point> path;
 	vector<Component> subComponents;
+	Point oldPosition;
 	int type;
 	int id;
 	int status = UNCHECKED;

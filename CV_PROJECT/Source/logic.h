@@ -44,15 +44,84 @@ void addToComponentList(int type, vector<Component> &componentList, Component &n
 	newComponent.status = CHECKED;
 }
 
-void updateComponent(vector<Component> &newComponent, vector<Component> &personList, vector<Component> &nonpersonList, int thresholdCM) {
+void updateComponent(vector<Component> &newComponent, vector<Component> &personList, vector<Component> &nonpersonList, vector<Component> &groupList, int thresholdCM) {
 	vector<Component> newPersonList;
 	vector<Component> newNonpersonList;
+	vector<Component> newGroupList;
 	_threshold = thresholdCM;
+	int flag = 0;
+
 	for ( unsigned int i = 0; i < newComponent.size(); i++ ) {
 		if ( newComponent[i].status == CHECKED ) continue;
 		int pID = 0;
 		
 		Component *person = nullptr;
+
+		// check split person - check component ว่าอยู่ใน groupList หรือป่าว ถ้าใช่ ให้ addToComponentList(PERSON, ... ) ทั้ง 2 คน
+		for (int j = 0; j < groupList.size(); j++) {
+			if (isOverlapped(newComponent[i], groupList[j])) {
+				//flag = 1;
+				int flag2 = 0;
+				for (int k = i + 1; k < newComponent.size(); k++) {
+					if (isOverlapped(newComponent[k], groupList[j])) {
+						flag2 = 1;
+						//groupList[j].subComponents[1]
+						Vector<int> v1, v2, v3, v4;	// 1, 2 before merge, 3, 4 after merge
+						v1.push_back(groupList[j].cm.x - groupList[j].subComponents[0].cm.x);
+						v1.push_back(groupList[j].cm.y - groupList[j].subComponents[0].cm.y);
+						v2.push_back(groupList[j].cm.x - groupList[j].subComponents[1].cm.x);
+						v2.push_back(groupList[j].cm.y - groupList[j].subComponents[1].cm.y);
+
+						v3.push_back(newComponent[i].cm.x - groupList[j].cm.x);
+						v3.push_back(newComponent[i].cm.y - groupList[j].cm.y);
+						v4.push_back(newComponent[k].cm.x - groupList[j].cm.x);
+						v4.push_back(newComponent[k].cm.y - groupList[j].cm.y);
+						
+						cout << groupList[j].subComponents[0].cm << " " << groupList[j].subComponents[0].id << " " << groupList[j].subComponents[1].cm << " " << groupList[j].subComponents[1].id << "\n";
+						printf("%d %d %d %d\n", newComponent[i].cm.x, newComponent[i].cm.y, newComponent[k].cm.x, newComponent[k].cm.y);
+						printf("dot [%d %d %d] [%d %d] %d\n", v1[0], v1[1], groupList[j].subComponents[0].id, v3[0], v3[1], dot(v1, v3));
+						if (dot(v1, v3) > 0) {		// > 0 means เดินสวนกัน => subComponent[0] equals newComponent[i]
+							printf("1 %d %d\n", groupList[j].subComponents[0].id, groupList[j].subComponents[1].id);
+							addToComponentList(PERSON, newPersonList, newComponent[i], groupList[j].subComponents[0].id);
+							addToComponentList(PERSON, newPersonList, newComponent[k], groupList[j].subComponents[1].id);
+						}
+						else {
+							printf("2 %d %d\n", groupList[j].subComponents[0].id, groupList[j].subComponents[1].id);
+							addToComponentList(PERSON, newPersonList, newComponent[i], groupList[j].subComponents[1].id);
+							addToComponentList(PERSON, newPersonList, newComponent[k], groupList[j].subComponents[0].id);
+						}
+						groupList.erase(groupList.begin() + j);
+						break;
+					}
+				}
+				if (flag2 == 0) {
+					newComponent[i].subComponents.push_back(groupList[j].subComponents[0]);
+					newComponent[i].subComponents.push_back(groupList[j].subComponents[1]);
+					addToComponentList(GROUP, newGroupList, newComponent[i], groupList[j].id);
+				}
+			}
+		}
+
+		// check merge person - เอา component ไปไล่ดูใน personList ถ้า overlap > 1 => กลายเป็น group ดังนั้น addToComponentList(GROUP, ... ) ใน groupList
+		int cnt = 0;
+		for (int j = 0; j < personList.size(); j++) {
+			if (isOverlapped(newComponent[i], personList[j])) {
+				cnt++;
+			}
+		}
+		if (cnt > 1) {
+			for (int j = 0; j < personList.size(); j++) {
+				if (isOverlapped(newComponent[i], personList[j])) {
+					personList[j].oldPosition = personList[j].cm;
+					newComponent[i].addSubComponent(personList[j]);
+				}
+			}
+			flag = 3;
+			//printf("flag 3: %d %d %d\n", newComponent[i].subComponents[0].id, newComponent[i].subComponents[1].id, newComponent[i].subComponents.size());
+			addToComponentList(GROUP, newGroupList, newComponent[i], newGroupList.size() + 1);
+			continue;
+		}
+
 		//check with person list
 		for ( unsigned int j = 0; j < personList.size(); j++ ) {
 			if ( !isOverlapped(newComponent[i], personList[j]) ) continue;
@@ -160,6 +229,7 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 	}
 	personList = newPersonList;
 	nonpersonList = newNonpersonList;
+	groupList = newGroupList;
 }
 
 bool isSameComponentX(ComponentX &a, ComponentX &b) {

@@ -18,6 +18,7 @@ void drawComponents(Mat &foreground, vector<Component> components) {
 		string str;
 		if (components[i].type == PERSON) str = "Person: ";
 		else if (components[i].type == NON_PERSON) str = "Item: ";
+		else if (components[i].type == GROUP) str = "Group: ";
 		else str = "UNKNOWN";
 
 		if (str != "UNKNOWN") {

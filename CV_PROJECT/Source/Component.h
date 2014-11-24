@@ -28,11 +28,13 @@ public:
 	int type;
 	int id;
 	int status = UNCHECKED;
+	bool showPath;
 	Component();
 	Component(Point cm, Point rect_tl, Point rect_br, int size, int type, int id);
 	void addPath(Point newPoint);
 	void addSubComponent(Component component);
 	int getWidth();
 	int getHeight();
+	bool isInComponent(int x, int y);
 	~Component();
 };

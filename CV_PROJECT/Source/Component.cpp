@@ -10,6 +10,7 @@ Component::Component(Point cm, Point rect_tl, Point rect_br, int size, int type,
 	this->size = size;
 	this->id = id;
 	this->type = type;
+	this->showPath = false;
 }
 
 Component::~Component() {
@@ -28,4 +29,10 @@ int Component::getWidth(){
 }
 int Component::getHeight(){
 	return rect_br.y - rect_tl.y;
+}
+bool Component::isInComponent(int x, int y){
+	if (x <= rect_br.x&&x >= rect_tl.x&&y <= rect_br.y&&y >= rect_tl.y){
+		return true;
+	}
+	return false;
 }

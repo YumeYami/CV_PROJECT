@@ -34,6 +34,7 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 	for ( unsigned int i = 0; i < newComponent.size(); i++ ) {
 		if ( newComponent[i].status == CHECKED ) continue;
 		int pID = 0;
+		
 		Component *person = nullptr;
 		//check with person list
 		for ( unsigned int j = 0; j < personList.size(); j++ ) {
@@ -75,6 +76,7 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 			}
 			personList[j].addPath(person->cm);
 			person->path = personList[j].path;
+			person->showPath = personList[j].showPath;
 			person->subComponents = personList[j].subComponents;
 			pID = personList[j].id;
 			break;

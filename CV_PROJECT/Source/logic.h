@@ -5,12 +5,16 @@
 // define MERGE_THRESHOLD
 #include "extractor.h"
 
-#define FRAME_WIDTH 480
-#define FRAME_HEIGHT 270
 #define THRESHOLD_PERSON 500
 
 int _threshold = 0;
 int _thresholdSameThings = 5;
+int FRAME_WIDTH = 0;
+int FRAME_HEIGHT = 0;
+void setVideoSize(int width, int height) {
+	FRAME_WIDTH = width;
+	FRAME_HEIGHT = height;
+}
 
 bool isOverlapped(Component a, Component b) {
 	//double cmDiff = pow(a.cm.x - b.cm.x, 2) + pow(a.cm.y - b.cm.y, 2);

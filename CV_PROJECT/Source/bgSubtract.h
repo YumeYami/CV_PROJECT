@@ -6,8 +6,8 @@
 #include <iostream>
 #include <list>
 
-#define DIFF_THRESHOLD 10
-#define DIFF_H_THRESHOLD 100
+#define DIFF_THRESHOLD 20
+#define DIFF_H_THRESHOLD 50
 #define DIFF_S_THRESHOLD 100
 #define DIFF_V_THRESHOLD 100
 #define OPENING_SIZE 2
@@ -45,12 +45,17 @@ inline void bgSubtractHSV(Mat bg, Mat currFrame, Mat &diffBool, Mat &foreground)
 	split(diff, diffHSV);
 	Mat tmp1, tmp2;
 	///not same color
+	Mat g = diffHSV[0] > 90;
+	g /= 255;
+	g *= 180;
+	absdiff(diffHSV[0], g, diffHSV[0]);
 	diffBool = diffHSV[0] > DIFF_H_THRESHOLD;
+
 	///same color
 	tmp1 = diffHSV[0] < DIFF_H_THRESHOLD;
 	tmp1 &= diffHSV[1] > DIFF_S_THRESHOLD;
 	tmp1 &= diffHSV[2] > DIFF_V_THRESHOLD;
-// 	diffBool |= tmp1;
+	diffBool |= tmp1;
 	
 	imshow("diffBool", diffBool);
 
@@ -58,5 +63,6 @@ inline void bgSubtractHSV(Mat bg, Mat currFrame, Mat &diffBool, Mat &foreground)
 	Morphology_Operations(diffBool, diffBool, CLOSING, 0, CLOSING_SIZE);
 	//diff &= currFrame;
 	//imshow("diff", diff);
-	foreground = diffBool;
+	cvtColor(diffBool, diff, CV_GRAY2BGR);
+	foreground = diff;
 }

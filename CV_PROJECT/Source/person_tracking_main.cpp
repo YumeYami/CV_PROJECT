@@ -10,7 +10,7 @@
 #include "logic.h"
 #include "draw.h"
 
-#define INIT_SKIP_FRAME 20
+#define INIT_SKIP_FRAME 15
 #define WHITE Scalar(255,255,255)
 
 using namespace cv;
@@ -25,7 +25,9 @@ vector<Item> itemListX;
 vector<Item> unknowListX;
 
 int thresholdCM = 40;
-string imgNum = "7";
+string imgNum = "2";
+int frameWidth;
+int frameHeight;
 int posX, posY;
 bool click = false;
 bool bghsv = false;
@@ -51,29 +53,32 @@ int main() {
 	///skip empty frame
 	do { cap >> f; } while ( f.empty() );
 	///skip initial frame
-	//for ( int i = 0; i < INIT_SKIP_FRAME; i++ ) cap >> f;
+	for ( int i = 0; i < INIT_SKIP_FRAME; i++ ) cap >> f;
 	cap >> bg;
+	setVideoSize(bg.cols, bg.rows);
 	bool loop = true, pause = false;
 	while ( loop ) {
-		if ( !pause ) cap >> f;
-		if ( f.empty() ) break;
-		imshow("background", f);
-		if ( !bghsv ) {
-			bgSubtract(bg, f, diffBool, foreground);
-		}
-		else {
-			bgSubtractHSV(bg, f, diffBool, foreground);
-		}
-		///old version
 		vector<Component> newFrameComponent;
-		findComponentContour(diffBool, newFrameComponent, foreground);
-		updateComponent(newFrameComponent, personList, nonpersonList, thresholdCM);
-		///new version
-		// 		vector<ComponentX> newComponentX;
-		// 		findComponentXContour(diffBool, newComponentX, foreground);
-		// 		updateComponentX(newComponentX, componentX, personListX, itemListX);
-		// 		///
-
+		if ( !pause ) {
+			cap >> f;
+			if ( f.empty() ) break;
+			imshow("background", f);
+			if ( !bghsv ) {
+				bgSubtract(bg, f, diffBool, foreground);
+			}
+			else {
+				bgSubtractHSV(bg, f, diffBool, foreground);
+			}
+			///old version
+			
+			findComponentContour(diffBool, newFrameComponent, foreground);
+			updateComponent(newFrameComponent, personList, nonpersonList, thresholdCM);
+			///new version
+			// 		vector<ComponentX> newComponentX;
+			// 		findComponentXContour(diffBool, newComponentX, foreground);
+			// 		updateComponentX(newComponentX, componentX, personListX, itemListX);
+			// 		///
+		}
 		drawComponents(foreground, newFrameComponent);
 		drawPersonPath(foreground, personList, posX, posY, click);
 		drawTextStatus(foreground, personList, nonpersonList);
@@ -83,7 +88,7 @@ int main() {
 		switch ( waitKey(10) ) {
 			case 27: loop = false; break;
 			case 'p': pause = !pause; break;
-			case 'b': 
+			case 'b':
 				bghsv = !bghsv;
 				cout << bghsv;
 				break;

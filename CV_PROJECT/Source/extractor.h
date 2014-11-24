@@ -6,7 +6,7 @@
 #include <queue>
 
 #define DIRECTION 0					// 1 for 8-direction, 0 for 4-direction
-#define THRESHOLD 250				// less than THRESHOLD is noise.
+#define AREA_THRESHOLD 20				// less than THRESHOLD is noise.
 
 
 using namespace std;
@@ -29,7 +29,7 @@ inline void findComponentContour(Mat &diffBool, vector<Component> &object, Mat &
 	for (unsigned int i = 0; i < contours.size(); i++ ) {
 		//approxPolyDP(Mat(contours[i]), contours_poly[i], 5, true);
 		double area = contourArea(contours[i]);
-		if ( area < THRESHOLD ) {
+		if ( area < AREA_THRESHOLD ) {
 			render[i] = false;
 		}
 		else {
@@ -88,7 +88,7 @@ inline void findComponent(Mat &frameDiff, vector<Component> &object) {
 			if ( frameDiff.at<uchar>(i, j) > 128 && bool_traverse.at<uchar>(i, j) == 0 ) {
 				//floodFill(frameDiff, Point(i, j), 199);
 				Component component = fill_region(frameDiff, Point(i, j), round, bool_traverse);
-				if ( component.size > THRESHOLD ) {
+				if ( component.size > AREA_THRESHOLD ) {
 					object.push_back(component);
 					if ( round < 250 ) round++;
 				}

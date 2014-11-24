@@ -8,8 +8,8 @@
 
 #define DIFF_THRESHOLD 10
 #define DIFF_RGB_THRESHOLD 60
-#define CLOSING_SIZE 3
 #define OPENING_SIZE 2
+#define CLOSING_SIZE 3
 #define OPENING 0
 #define CLOSING 1
 

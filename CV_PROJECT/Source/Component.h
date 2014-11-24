@@ -13,6 +13,7 @@
 #define NON_PERSON 2
 
 #define CHECKED -1
+#define UNCHECKED 0
 using namespace cv;
 using namespace std;
 
@@ -26,6 +27,7 @@ public:
 	vector<Component> subComponents;
 	int type;
 	int id;
+	int status = UNCHECKED;
 	Component();
 	Component(Point cm, Point rect_tl, Point rect_br, int size, int type, int id);
 	void addPath(Point newPoint);

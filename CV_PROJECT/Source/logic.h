@@ -24,24 +24,24 @@ void addToComponentList(int type, vector<Component> &componentList, Component &n
 	newComponent.type = type;
 	newComponent.id = id;
 	componentList.push_back(newComponent);
-	newComponent.id = CHECKED;
+	newComponent.status = CHECKED;
 }
 
 void updateComponent(vector<Component> &newComponent, vector<Component> &personList, vector<Component> &nonpersonList, int thresholdCM) {
 	vector<Component> newPersonList;
 	vector<Component> newNonpersonList;
 	_threshold = thresholdCM;
-	for (unsigned int i = 0; i < newComponent.size(); i++ ) {
-		if ( newComponent[i].id == CHECKED ) continue;
+	for ( unsigned int i = 0; i < newComponent.size(); i++ ) {
+		if ( newComponent[i].status == CHECKED ) continue;
 		int pID = 0;
 		Component *person = nullptr;
 		//check with person list
-		for (unsigned int j = 0; j < personList.size(); j++ ) {
+		for ( unsigned int j = 0; j < personList.size(); j++ ) {
 			if ( !isOverlapped(newComponent[i], personList[j]) ) continue;
 			//assume that new component is person
 			person = &newComponent[i];
 			bool splitObject = false;
-			for (unsigned int n = 0; n < personList[j].subComponents.size(); n++ ) {
+			for ( unsigned int n = 0; n < personList[j].subComponents.size(); n++ ) {
 				//component in personList is holding objects
 				if ( isSameThings(personList[j].subComponents[n], *person) ) {
 					//the object is same things with new component
@@ -50,11 +50,11 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 					break;
 				}
 			}
-			for (unsigned int k = i + 1; k < newComponent.size(); k++ ) {
+			for ( unsigned int k = i + 1; k < newComponent.size(); k++ ) {
 				if ( !isOverlapped(newComponent[k], personList[j]) )continue;
 				//component in person list is split
 				if ( personList[j].subComponents.size() != 0 ) {
-					for (unsigned int n = 0; n < personList[j].subComponents.size(); n++ ) {
+					for ( unsigned int n = 0; n < personList[j].subComponents.size(); n++ ) {
 						if ( isSameThings(personList[j].subComponents[n], newComponent[k]) ) {
 							addToComponentList(NON_PERSON, newNonpersonList, newComponent[k], newComponent[k].id);
 							personList[j].subComponents.erase(personList[j].subComponents.begin() + n);
@@ -85,7 +85,7 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 				int pWidth = person->getWidth();
 				int pHeight = person->getHeight();
 				Point pCM = person->cm;
-				for (unsigned int i = 0; i < (*subComponents).size(); i++ ) {
+				for ( unsigned int i = 0; i < (*subComponents).size(); i++ ) {
 					int sWidth = (*subComponents)[i].getWidth();
 					int sHeight = (*subComponents)[i].getHeight();
 					Point sCM = (*subComponents)[i].cm;
@@ -98,7 +98,7 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 					}
 				}
 			}
-			for (unsigned int j = 0; j < nonpersonList.size(); j++ ) {
+			for ( unsigned int j = 0; j < nonpersonList.size(); j++ ) {
 				if ( isOverlapped(newComponent[i], nonpersonList[j]) ) {
 					if ( nonpersonList[j].id != pID ) {
 						person->addSubComponent(nonpersonList[j]);
@@ -109,7 +109,7 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 		}
 		//new component is object
 		else {
-			for (unsigned int j = 0; j < nonpersonList.size(); j++ ) {
+			for ( unsigned int j = 0; j < nonpersonList.size(); j++ ) {
 				if ( isOverlapped(newComponent[i], nonpersonList[j]) ) {
 					addToComponentList(NON_PERSON, newNonpersonList, newComponent[i], nonpersonList[j].id);
 					break;
@@ -117,7 +117,7 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 			}
 		}
 		//new component is new person
-		if ( newComponent[i].id != CHECKED ) {
+		if ( newComponent[i].status != CHECKED ) {
 			newComponent[i].addPath(newComponent[i].cm);
 			addToComponentList(PERSON, newPersonList, newComponent[i], Person::personCounter++);
 		}
@@ -134,38 +134,38 @@ bool isSameComponentX(ComponentX &a, ComponentX &b) {
 	return false;
 }
 
- void updateComponentX(vector<ComponentX> currComponents, vector<ComponentX> &prevComponents, vector<Person> &personList, vector<Item> &itemList, vector<Item> unknowItem) {
- 	vector<Component> newComp;
- 	///scan all curr component
- 	for ( unsigned int i = 0; i < currComponents.size(); i++ ) {
- 		if ( currComponents[i].checkStatus == CHECKED ) continue;
- 		///match with prev component
- 		bool isMatchWithPerson = false;
- 		for ( unsigned int j = 0; j < personList.size(); j++ ) {
- 			if ( personList[j].checkStatus == CHECKED ) continue;
- 			if ( isSameComponentX(currComponents[i], *personList[j].parent) ) {
- 				///found matchable prev component here
- 				isMatchWithPerson = true;
- 				///find other split curr component
- 				bool isFindSplitCurrComponent = false;
- 				for ( unsigned k = i + 1; k < currComponents.size(); k++ ) {
- 					if ( currComponents[k].checkStatus == CHECKED ) continue;
- 					if ( !isSameComponentX(currComponents[i], currComponents[k]) ) {
- 						///found split curr component here
- 						isFindSplitCurrComponent = true;
- 						if ( currComponents[i].size > currComponents[k].size ) {
- 							/// comp[i] is person
- 							personList[j].path.push_back(currComponents[i].cm);
- 							personList[j].parent = &currComponents[i];
- 						}
- 						else {
- 							/// comp[k] is person
- 						}
- 						break;
- 					}
- 				}
- 				break;
- 			}
- 		}
- 	}
- }
+void updateComponentX(vector<ComponentX> currComponents, vector<ComponentX> &prevComponents, vector<Person> &personList, vector<Item> &itemList, vector<Item> unknowItem) {
+	vector<Component> newComp;
+	///scan all curr component
+	for ( unsigned int i = 0; i < currComponents.size(); i++ ) {
+		if ( currComponents[i].checkStatus == CHECKED ) continue;
+		///match with prev component
+		bool isMatchWithPerson = false;
+		for ( unsigned int j = 0; j < personList.size(); j++ ) {
+			if ( personList[j].checkStatus == CHECKED ) continue;
+			if ( isSameComponentX(currComponents[i], *personList[j].parent) ) {
+				///found matchable prev component here
+				isMatchWithPerson = true;
+				///find other split curr component
+				bool isFindSplitCurrComponent = false;
+				for ( unsigned k = i + 1; k < currComponents.size(); k++ ) {
+					if ( currComponents[k].checkStatus == CHECKED ) continue;
+					if ( !isSameComponentX(currComponents[i], currComponents[k]) ) {
+						///found split curr component here
+						isFindSplitCurrComponent = true;
+						if ( currComponents[i].size > currComponents[k].size ) {
+							/// comp[i] is person
+							personList[j].path.push_back(currComponents[i].cm);
+							personList[j].parent = &currComponents[i];
+						}
+						else {
+							/// comp[k] is person
+						}
+						break;
+					}
+				}
+				break;
+			}
+		}
+	}
+}

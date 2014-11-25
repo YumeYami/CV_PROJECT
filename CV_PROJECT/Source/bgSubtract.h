@@ -34,6 +34,7 @@ inline void bgSubtract(Mat bg, Mat currFrame, Mat &diffBool, Mat &foreground) {
 	//imshow("diff", diff);
 	foreground = diff;
 }
+
 inline void bgSubtractHSV(Mat bg, Mat currFrame, Mat &diffBool, Mat &foreground) {
 	Mat diff, bgHSV, currHSV;
 	diff.convertTo(diff, CV_8UC3);

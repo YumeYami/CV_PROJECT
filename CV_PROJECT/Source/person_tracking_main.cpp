@@ -10,6 +10,8 @@
 #include "logic.h"
 #include "draw.h"
 
+string videoNum = "videox1.mp4";
+
 #define INIT_SKIP_FRAME 15
 #define WHITE Scalar(255,255,255)
 
@@ -26,7 +28,6 @@ vector<Item> itemListX;
 vector<Item> unknowListX;
 
 int thresholdCM = 40;
-string imgNum = "8";
 int frameWidth;
 int frameHeight;
 int posX, posY;
@@ -42,7 +43,7 @@ void onMouse(int e, int x, int y, int fl, void*) {
 int main() {
 	cout << "start...\n";
 	//VideoCapture cap("video/IMG" + imgNum + ".mp4");
-	VideoCapture cap("video/video2.mp4");
+	VideoCapture cap(videoNum);
 	//VideoCapture cap(0);
 	if ( !cap.isOpened() ) {
 		cout << "video error\n";
@@ -63,7 +64,7 @@ int main() {
 		if ( !pause ) {
 			cap >> f;
 			if ( f.empty() ) break;
-			imshow("background", f);
+			//imshow("background", f);
 			if ( !bghsv ) {
 				bgSubtract(bg, f, diffBool, foreground);
 			}
@@ -83,9 +84,12 @@ int main() {
 		drawComponents(foreground, newFrameComponent);
 		drawPersonPath(foreground, personList, posX, posY, click);
 		drawTextStatus(foreground, personList, nonpersonList);
+		drawComponents(f, newFrameComponent);
+		drawPersonPath(f, personList, posX, posY, click);
+		drawTextStatus(f, personList, nonpersonList);
 		click = false;
 		imshow("foreground", foreground);
-
+		imshow("f", f);
 		switch ( waitKey(10) ) {
 			case 27: loop = false; break;
 			case 'p': pause = !pause; break;

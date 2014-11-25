@@ -247,47 +247,47 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 	nonpersonList = newNonpersonList;
 	groupList = newGroupList;
 }
-
-bool isSameComponentX(ComponentX &a, ComponentX &b) {
-	double cmDiff = pow(a.cm.x - b.cm.x, 2) + pow(a.cm.y - b.cm.y, 2);
-	if ( cmDiff <= _thresholdSameThings*_thresholdSameThings ) {
-		return true;
-	}
-	return false;
-}
-
-void updateComponentX(vector<ComponentX> currComponents, vector<ComponentX> &prevComponents, vector<Person> &personList, vector<Item> &itemList, vector<Item> unknowItem) {
-	vector<Component> newComp;
-	///scan all curr component
-	for ( unsigned int i = 0; i < currComponents.size(); i++ ) {
-		if ( currComponents[i].checkStatus == CHECKED ) continue;
-		///match with prev component
-		bool isMatchWithPerson = false;
-		for ( unsigned int j = 0; j < personList.size(); j++ ) {
-			if ( personList[j].checkStatus == CHECKED ) continue;
-			if ( isSameComponentX(currComponents[i], *personList[j].parent) ) {
-				///found matchable prev component here
-				isMatchWithPerson = true;
-				///find other split curr component
-				bool isFindSplitCurrComponent = false;
-				for ( unsigned k = i + 1; k < currComponents.size(); k++ ) {
-					if ( currComponents[k].checkStatus == CHECKED ) continue;
-					if ( !isSameComponentX(currComponents[i], currComponents[k]) ) {
-						///found split curr component here
-						isFindSplitCurrComponent = true;
-						if ( currComponents[i].size > currComponents[k].size ) {
-							/// comp[i] is person
-							personList[j].path.push_back(currComponents[i].cm);
-							personList[j].parent = &currComponents[i];
-						}
-						else {
-							/// comp[k] is person
-						}
-						break;
-					}
-				}
-				break;
-			}
-		}
-	}
-}
+//
+//bool isSameComponentX(ComponentX &a, ComponentX &b) {
+//	double cmDiff = pow(a.cm.x - b.cm.x, 2) + pow(a.cm.y - b.cm.y, 2);
+//	if ( cmDiff <= _thresholdSameThings*_thresholdSameThings ) {
+//		return true;
+//	}
+//	return false;
+//}
+//
+//void updateComponentX(vector<ComponentX> currComponents, vector<ComponentX> &prevComponents, vector<Person> &personList, vector<Item> &itemList, vector<Item> unknowItem) {
+//	vector<Component> newComp;
+//	///scan all curr component
+//	for ( unsigned int i = 0; i < currComponents.size(); i++ ) {
+//		if ( currComponents[i].checkStatus == CHECKED ) continue;
+//		///match with prev component
+//		bool isMatchWithPerson = false;
+//		for ( unsigned int j = 0; j < personList.size(); j++ ) {
+//			if ( personList[j].checkStatus == CHECKED ) continue;
+//			if ( isSameComponentX(currComponents[i], *personList[j].parent) ) {
+//				///found matchable prev component here
+//				isMatchWithPerson = true;
+//				///find other split curr component
+//				bool isFindSplitCurrComponent = false;
+//				for ( unsigned k = i + 1; k < currComponents.size(); k++ ) {
+//					if ( currComponents[k].checkStatus == CHECKED ) continue;
+//					if ( !isSameComponentX(currComponents[i], currComponents[k]) ) {
+//						///found split curr component here
+//						isFindSplitCurrComponent = true;
+//						if ( currComponents[i].size > currComponents[k].size ) {
+//							/// comp[i] is person
+//							personList[j].path.push_back(currComponents[i].cm);
+//							personList[j].parent = &currComponents[i];
+//						}
+//						else {
+//							/// comp[k] is person
+//						}
+//						break;
+//					}
+//				}
+//				break;
+//			}
+//		}
+//	}
+//}

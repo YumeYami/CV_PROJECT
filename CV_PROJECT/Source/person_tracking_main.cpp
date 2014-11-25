@@ -41,18 +41,8 @@ void onMouse(int e, int x, int y, int fl, void*) {
 }
 int main() {
 	cout << "start...\n";
-
-	Vector<int> v1;
-	v1.push_back(1);
-	v1.push_back(3);
-	Vector<int> v2;
-	v2.push_back(3);
-	v2.push_back(5);
-	//cout << v1 << " " << v2 << endl;
-	for (int i = 0; i < v1.size(); i++) cout << v1[i] << endl;
-	cout << dot(v1, v2) << endl;
 	//VideoCapture cap("video/IMG" + imgNum + ".mp4");
-	VideoCapture cap("video/video0" + imgNum + ".mp4");
+	VideoCapture cap("video/video2.mp4");
 	//VideoCapture cap(0);
 	if ( !cap.isOpened() ) {
 		cout << "video error\n";

@@ -53,53 +53,26 @@ inline void findComponentContour(Mat &diffBool, vector<Component> &object, Mat &
 	}
 	///merge small component
 	for ( unsigned i = 0; i < components.size(); i++ ) {
-		if ( components[i].mergeStatus != UNCHECKED ) continue;
-		components[i].mergeStatus = CHECKED;
-		for ( unsigned int j = i + 1; j < components.size(); j++ ) {
-			if ( components[j].mergeStatus != UNCHECKED ) continue;
-			if ( isMergeable(components[i], components[j]) ) {
-				components[i] = mergeComponent(components[i], components[j]);
-				components[j].mergeStatus = CHECKED;
-				//cout << "merge!!" << i << " " << j << "\n";
+		if ( components[i].mergeStatus == CHECKED ) continue;
+		//components[i].mergeStatus = CHECKED;
+		bool flag = true;
+		while ( flag ) {
+			flag = false;
+			for ( unsigned int j = 0; j < components.size(); j++ ) {
+				if ( components[j].mergeStatus == CHECKED || i == j ) continue;
+				if ( isMergeable(components[i], components[j]) ) {
+					components[i] = mergeComponent(components[i], components[j]);
+					components[j].mergeStatus = CHECKED;
+					flag = true;
+					//cout << "merge!!" << i << " " << j << "\n";
+				}
 			}
 		}
 		object.push_back(components[i]);
 	}
+	
 }
 
-// inline void findComponentXContour(Mat &diffBool, vector<ComponentX> &object, Mat &foreground) {
-// 	vector<vector<Point> > contours;
-// 	vector<Vec4i> hierarchy;
-// 	findContours(diffBool, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
-// 	vector<vector<Point> > contours_poly(contours.size());
-// 	vector<Rect> boundRect(contours.size());
-// 	vector<Point2f>center(contours.size());
-// 	vector<float>radius(contours.size());
-// 	vector<bool>render(contours.size());
-// 	for ( int i = 0; i < contours.size(); i++ ) {
-// 		//approxPolyDP(Mat(contours[i]), contours_poly[i], 5, true);
-// 		double area = contourArea(contours[i]);
-// 		if ( area < THRESHOLD ) {
-// 			render[i] = false;
-// 		}
-// 		else {
-// 			render[i] = true;
-// 			boundRect[i] = boundingRect(Mat(contours[i]));
-// 			ComponentX newCom = ComponentX(Point((boundRect[i].br().x + boundRect[i].tl().x) / 2, (boundRect[i].br().y + boundRect[i].tl().y) / 2), boundRect[i].tl(), boundRect[i].br(), area, 0);
-// 			object.push_back(newCom);
-// 		}
-// 	}
-// 	/// Draw polygonal contour + bonding rect + circles
-// 	Mat drawing = Mat::zeros(diffBool.size(), CV_8UC3);
-// 	for ( int i = 0; i < contours.size(); i++ ) {
-// 		//Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-// 		Scalar color = Scalar(255, 255, 255);
-// 		if ( render[i] = true ) {
-// 			drawContours(foreground, contours, i, color, 1, 8, vector<Vec4i>(), 0, Point());
-// 			rectangle(foreground, boundRect[i].tl(), boundRect[i].br(), color, 2, 8, 0);
-// 		}
-// 	}
-// }
 
 inline void findComponent(Mat &frameDiff, vector<Component> &object) {
 	// frameDiff is grayscale with 0 or 255

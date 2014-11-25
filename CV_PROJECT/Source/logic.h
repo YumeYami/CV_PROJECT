@@ -60,7 +60,7 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 		
 		Component *person = nullptr;
 
-		// check split person - check component ว่าอยู่ใน groupList หรือป่าว ถ้าใช่ ให้ addToComponentList(PERSON, ... ) ทั้ง 2 คน
+		// check split person - check component groupList addToComponentList(PERSON, ... ) 
 		for (int j = 0; j < groupList.size(); j++) {
 			if (isOverlapped(newComponent[i], groupList[j])) {
 				//flag = 1;
@@ -88,9 +88,9 @@ void updateComponent(vector<Component> &newComponent, vector<Component> &personL
 						v4.push_back(newComponent[k].cm.x - groupList[j].subComponents[1].cm.x);
 						v4.push_back(newComponent[k].cm.y - groupList[j].subComponents[1].cm.y);
 
-						cout << groupList[j].subComponents[0].cm << " " << groupList[j].subComponents[0].id << " " << groupList[j].subComponents[1].cm << " " << groupList[j].subComponents[1].id << "\n";
-						printf("%d %d %d %d\n", newComponent[i].cm.x, newComponent[i].cm.y, newComponent[k].cm.x, newComponent[k].cm.y);
-						printf("dot [%d %d %d] [%d %d] %d\n", v1[0], v1[1], groupList[j].subComponents[0].id, v3[0], v3[1], dot(v1, v3));
+						//cout << groupList[j].subComponents[0].cm << " " << groupList[j].subComponents[0].id << " " << groupList[j].subComponents[1].cm << " " << groupList[j].subComponents[1].id << "\n";
+						//printf("%d %d %d %d\n", newComponent[i].cm.x, newComponent[i].cm.y, newComponent[k].cm.x, newComponent[k].cm.y);
+						//printf("dot [%d %d %d] [%d %d] %d\n", v1[0], v1[1], groupList[j].subComponents[0].id, v3[0], v3[1], dot(v1, v3));
 						if (dot(v1, v3) > 0) {		// > 0 means เดินสวนกัน => subComponent[0] equals newComponent[i]
 							printf("1 %d %d\n", groupList[j].subComponents[0].id, groupList[j].subComponents[1].id);
 							newComponent[i].path = groupList[j].subComponents[0].path;

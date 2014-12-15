@@ -11,6 +11,8 @@
 #include "draw.h"
 
 string videoNum = "videox1.mp4";
+ //string videoNum = "videox2.mp4";
+ //string videoNum = "videox3.mp4";
 
 #define INIT_SKIP_FRAME 15
 #define WHITE Scalar(255,255,255)
@@ -85,7 +87,7 @@ int main() {
 		drawPersonPath(foreground, personList, posX, posY, click);
 		drawTextStatus(foreground, personList, nonpersonList);
 		drawComponents(f, newFrameComponent);
-		drawPersonPath(f, personList, posX, posY, click);
+		drawPersonPath(f, personList, posX, posY, false);
 		drawTextStatus(f, personList, nonpersonList);
 		click = false;
 		imshow("foreground", foreground);

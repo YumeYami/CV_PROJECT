@@ -61,7 +61,7 @@ void drawTextStatus(Mat &foreground, vector<Component> personList, vector<Compon
 			for (unsigned j = 0; j < personList[i].subComponents.size(); j++) {
 				item += to_string(personList[i].subComponents[j].id);
 			}
-			putText(foreground, item, Point(20, 490), FONT_HERSHEY_PLAIN, FONT_SCALE, WHITE);
+			//putText(foreground, item, Point(20, 490), FONT_HERSHEY_PLAIN, FONT_SCALE, WHITE);
 		}
 	}
 
